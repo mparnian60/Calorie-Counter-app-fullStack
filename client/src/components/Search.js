@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import searchAPI from '../api/searchAPI';
+import SearchResult from './SearchResult';
 
 const Search = () => {
     const [searchItem, setSearchItem] = useState("");
@@ -15,7 +16,7 @@ const Search = () => {
         if (searchItem) {
             searchAPI(searchItem)
                 .then((result) => {
-                    console.log(result);
+                    console.log('result',result);
                     setSearchResults(result);
                 });
         }
@@ -33,6 +34,7 @@ const Search = () => {
                     <Button >Search</Button>
                 </FormGroup>
             </Form>
+            <SearchResult foodResult={searchResult}/>
         </React.Fragment>
 
     )
