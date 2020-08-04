@@ -6,6 +6,7 @@ import SearchResult from './SearchResult';
 const Search = () => {
     const [searchItem, setSearchItem] = useState("");
     const [searchResult, setSearchResults] = useState([]);
+  
 
     const handleSearchEntry = (e) => {
         setSearchItem(e.currentTarget.value);
@@ -16,7 +17,7 @@ const Search = () => {
         if (searchItem) {
             searchAPI(searchItem)
                 .then((result) => {
-                    console.log('result',result);
+                    // console.log('result',result);
                     setSearchResults(result);
                 });
         }
