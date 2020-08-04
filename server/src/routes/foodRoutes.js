@@ -25,8 +25,16 @@ router.get('/foodsearch/:search' , async (req, res) =>{
 router.post('/newDayPlan' , async (req, res) =>{
     try{
         // req.body.userId = payload.id;
-      const newDayPlan = await DayPlan.create(req.body);
-      res.status(200).send(newDayPlan);
+        //checking whther combination of userID & date exist
+      const findExistingPlan = await DayPlan.find({userId:req.body.userId, date:req.body.date})
+      if(findExistingPlan.length<1) {
+        const newDayPlan = await DayPlan.create(req.body);
+        res.status(200).send(newDayPlan);
+      }else{
+        console.log("findExistingPlan", findExistingPlan);
+        res.send("plan exist");
+      }
+      
     }catch{
       res.status(400).send("Bad request");
     }
