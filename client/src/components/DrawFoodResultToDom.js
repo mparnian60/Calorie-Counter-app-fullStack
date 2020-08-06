@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import MakeDayPlan from './MakeDayPlan';
 import DayPlanModal from './DayPlanModal';
 
 const DrawFoodResultToDom = (props) => {

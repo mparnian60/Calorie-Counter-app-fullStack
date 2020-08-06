@@ -1,5 +1,6 @@
 const express = require("../../node_modules/express");
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Fatsecret = require('../FatSecret');
 const DayPlan = require("../models/DayPlan");
 
@@ -20,6 +21,24 @@ router.get('/foodsearch/:search' , async (req, res) =>{
       .catch(err => console.error(err));
 
 })
+
+//middleware to verify JWT, Otherwise reject request if not valid
+const privateKey = '7f58842e-546e-41ec-86cc-98688aff65e5';
+router.use((req, res, next)=>{
+  const token = req.get('token');
+
+  console.log("token", token);
+
+  jwt.verify(token, privateKey, { algorithms: ["HS256"] }, (err, decoded)=>{
+    if(!err) {
+      req.user = decoded //store userinfo in requset object
+      next();  //middleware complete, move to next endpoint
+    }else{
+      res.status(401).send("Please login");
+    }
+  })
+})
+
 
 // create new plan
 router.post('/newDayPlan' , async (req, res) =>{
