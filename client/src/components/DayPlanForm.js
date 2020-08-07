@@ -1,40 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Label, Form, FormGroup } from 'reactstrap';
 import createDayPlanAPI from '../api/dayPlanAPI';
 
 const DayPlanForm = (props) => {
     // console.log('dayplanform props',props);
 
-    
+    const [servingSize, setServingsize] = useState({
+        breakfast: 0,
+        lunch: 0,
+        dinner: 0,
+        snack: 0
+    });
+    const [date, setDate] = useState("");
 
-        
+
+    const handleDate = e => {
+        let value = e.target.value;
+        setDate(value);
     }
 
-    return (
-        <Form onSubmit={handleFormSubmit}>
-            <FormGroup className="mx-2" check>
-                <Label for="backdrop">Choose your meal</Label>{' '}
-                <Label check></Label><br />
-                <Input type="checkbox" checked={breakfastCheck} onChange={chooseBreakfast} /> Breakfast
-                        <Label check></Label><br />
-                <Input type="checkbox" checked={lunchCheck} onChange={chooseLunch} /> Lunch
-                        <Label check></Label><br />
-                <Input type="checkbox" checked={dinnerChcek} onChange={chooseDinner} /> Dinner
-                        <Label check></Label><br />
-                <Input type="checkbox" checked={snackChcek} onChange={chooseSnack} /> Snack/Other
+    //for having couple of variable in one state, we need to use the spread function (...) to make a new object
+    //react always like to keep the previous and have the new and always compare them togeteher
+    const onChange = (e) => {
+        const newServingSizes = { ...servingSize }
+        newServingSizes[e.target.name] = e.target.value
+        setServingsize(newServingSizes);
+    }
 
-                    </FormGroup>
+    //now we capture everytime state changes and as setStae is a asynchronous function, if we don't put it in a useeffect, 
+    //onChangeDayPlanFormValue get called before change state get captured
+    useEffect(() =>{
+        props.onChangeDayPlanFormValue({
+            date: date,
+            meal: servingSize
+        })
+    })
+
+
+
+    return (
+        <Form>
+            <FormGroup className="mx-2" check>
+                <Label for="backdrop">Choose your meal by adding the Serving Size</Label>{' '}
+
+                <Label >Breakfast</Label>
+                <Input type="number" name="breakfast" value={servingSize.breakfast} onChange={onChange} />
+
+                <Label >Lunch</Label>
+                <Input type="number" name="lunch" value={servingSize.lunch} onChange={onChange} />
+
+                <Label >Dinner</Label>
+                <Input type="number" name="dinner" value={servingSize.dinner} onChange={onChange} />
+
+                <Label >Snack/Other</Label>
+                <Input type="number" name="snack" value={servingSize.snack} onChange={onChange} />
+
+            </FormGroup>
             {' '}
             <FormGroup>
                 <Label for="backdrop">Date</Label>{' '}
                 <Input type="date" name="date" id="backdrop" onChange={handleDate}>
                 </Input>
             </FormGroup>
-            <FormGroup>
+            {/* <FormGroup>
                 <Label for="backdrop">Serving size</Label>{' '}
                 <Input type="number" name="servingSize" id="backdrop" onChange={handleServingSize}>
                 </Input>
-            </FormGroup>
+            </FormGroup> */}
         </Form>
     )
 }
