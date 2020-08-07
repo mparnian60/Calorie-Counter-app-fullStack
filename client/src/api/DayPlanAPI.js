@@ -1,4 +1,4 @@
-export async function createDayPlan(food) {
+async function createDayPlanAPI(food) {
     const result = await fetch('/api/food/newDayPlan', {
         method: 'POST',
         body: JSON.stringify(food),
@@ -11,3 +11,5 @@ export async function createDayPlan(food) {
 
     return data;
 }
+
+export default createDayPlanAPI;

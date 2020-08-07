@@ -3,9 +3,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory,
+  useLocation,
+  Redirect
 } from "react-router-dom";
 import Home from './Home';
+import {Login, fakeAuth} from "./Login";
 
 export function Nav() {
   return (
@@ -25,20 +29,26 @@ export function Nav() {
             <li>
               <Link to="/dietCalendar">Diet Calendar</Link>
             </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
           </ul>
         </nav>
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/foodDiary">
+          <PrivateRoute path="/foodDiary">
             <FoodDiary />
-          </Route>
-          <Route path="/weightHistory">
+          </PrivateRoute>
+          <PrivateRoute path="/weightHistory">
             <WeightHistory />
-          </Route>
-          <Route path="/dietCalendar">
+          </PrivateRoute>
+          <PrivateRoute path="/dietCalendar">
             <DietCalendar />
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/">
             <Home />
@@ -46,6 +56,28 @@ export function Nav() {
         </Switch>
       </div>
     </Router>
+  );
+}
+
+
+
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        fakeAuth.isAuthenticated ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
   );
 }
 
@@ -61,3 +93,4 @@ function DietCalendar() {
     return <h2>Diet Calendar</h2>;
   }
 
+  

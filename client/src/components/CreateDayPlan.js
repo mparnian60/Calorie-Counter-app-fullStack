@@ -1,15 +1,16 @@
-import React from 'react';
-import DayPlanForm from './DayPlanForm';
+import React, {useState} from 'react';
+import { createDayPlanAPI } from '../api/dayPlanAPI';
+import FormCompleteMsg from './FormCompleteMsg'
 
-function CreateDayPlan() {
+function CreateDayPlan(plan) {
 
     const [submitMsg, setSubmitMsg] = useState({ msg: "", state: false });
     const [redirectHome, setRedirectHome] = useState(false);
 
     const DayPlanHandler = async (plan) => {
-        //submit movie to backend
+        //submit food to backend
         try {
-            const data = await createDayPlan(plan);
+            const data = await createDayPlanAPI(plan);
             console.log(data);
             setSubmitMsg({ msg: 'Selected food added, add another?', state: true });
         } catch (e) {
@@ -21,7 +22,6 @@ function CreateDayPlan() {
 
     return (
         <React.Fragment>
-            <DayPlanForm submitHandler={DayPlanHandler} />
             <FormCompleteMsg submitMsg={submitMsg} setRedirectHome={setRedirectHome} redirectHome={redirectHome}/>
         </React.Fragment>
 
