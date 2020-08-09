@@ -1,4 +1,5 @@
 async function createDayPlanAPI(food) {
+    
     const result = await fetch('/api/food/newDayPlan', {
         method: 'POST',
         body: JSON.stringify(food),

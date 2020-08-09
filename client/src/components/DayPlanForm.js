@@ -29,7 +29,7 @@ const DayPlanForm = (props) => {
 
     //now we capture everytime state changes and as setStae is a asynchronous function, if we don't put it in a useeffect, 
     //onChangeDayPlanFormValue get called before change state get captured
-    useEffect(() =>{
+    useEffect(() => {
         props.onChangeDayPlanFormValue({
             date: date,
             meal: servingSize
@@ -42,18 +42,25 @@ const DayPlanForm = (props) => {
         <Form>
             <FormGroup className="mx-2" check>
                 <Label for="backdrop">Choose your meal by adding the Serving Size</Label>{' '}
+                <FormGroup>
+                    <Label >Breakfast</Label>
+                    <Input type="number" name="breakfast" value={servingSize.breakfast} onChange={onChange} />
+                </FormGroup>
 
-                <Label >Breakfast</Label>
-                <Input type="number" name="breakfast" value={servingSize.breakfast} onChange={onChange} />
-
+                <FormGroup>
                 <Label >Lunch</Label>
                 <Input type="number" name="lunch" value={servingSize.lunch} onChange={onChange} />
+                </FormGroup>
 
+                <FormGroup>
                 <Label >Dinner</Label>
                 <Input type="number" name="dinner" value={servingSize.dinner} onChange={onChange} />
+                </FormGroup>
 
+                <FormGroup>
                 <Label >Snack/Other</Label>
                 <Input type="number" name="snack" value={servingSize.snack} onChange={onChange} />
+                </FormGroup>
 
             </FormGroup>
             {' '}

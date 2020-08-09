@@ -17,7 +17,7 @@ export const fakeAuth = {
     }
   };
 
-export function Login() {
+export function Login(props) {
 
     const [username, setUsername] =useState('');
     const [password, setPassword] =useState('');
@@ -47,6 +47,10 @@ export function Login() {
             //save token in local storage
             localStorage.setItem('token', token);
             localStorage.setItem('userId', decoded.id);
+
+            props.loginStatus(true);
+
+            history.push('/');
 
         }).catch(e => {
             console.log(e);

@@ -18,24 +18,35 @@ const DayPlanModal = (props) => {
 
     const toggle = () => props.setShowModal(!props.showModal);
 
+    console.log('dayPlanFormValue',dayPlanFormValue);
+
+    const[breakfastFoodId, setbreakfastFoodId] = useState('');
+    const[lunchFoodId, setLunchFoodId] = useState('');
+    const[dinnerFoodId, setDinnerFoodId] = useState('');
+    const[snackFoodId, setSnackFoodId] = useState('');
+
 
     const onChangeDayPlanFormValue = (dayPlanData) =>{
         dayPlanFormValue = dayPlanData;
        console.log('dayplandata', dayPlanData);
+       dayPlanData.meal.breakfast>0 && setbreakfastFoodId(props.foodDetails.food_id);
+       dayPlanData.meal.lunch>0 && setLunchFoodId(props.foodDetails.food_id);
+       dayPlanData.meal.dinner>0 && setDinnerFoodId(props.foodDetails.food_id);
+       dayPlanData.meal.snack>0 && setSnackFoodId(props.foodDetails.food_id);
     }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log('e', e);
+       
 
         createDayPlanAPI({
             userId: localStorage.getItem('userId'),
             date: dayPlanFormValue.date,
             meal: {
-                breakfast: [{ foodId: props.foodDetails.food_id, servingSize: dayPlanFormValue.meal.breakfast }],
-                lunch: [{ foodId: props.foodDetails.food_id, servingSize: dayPlanFormValue.meal.lunch }],
-                dinner: [{ foodId: props.foodDetails.food_id, servingSize: dayPlanFormValue.meal.dinner }],
-                snack: [{ foodId: props.foodDetails.food_id, servingSize: dayPlanFormValue.meal.snack }]
+                breakfast: [{ foodId: breakfastFoodId, servingSize: dayPlanFormValue.meal.breakfast }],
+                lunch: [{ foodId: lunchFoodId, servingSize: dayPlanFormValue.meal.lunch }],
+                dinner: [{ foodId: dinnerFoodId, servingSize: dayPlanFormValue.meal.dinner }],
+                snack: [{ foodId: snackFoodId, servingSize: dayPlanFormValue.meal.snack }]
             }
 
         }).then(() => {

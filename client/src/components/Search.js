@@ -17,7 +17,7 @@ const Search = () => {
         if (searchItem) {
             searchAPI(searchItem)
                 .then((result) => {
-                    console.log('result',result);
+                    // console.log('result',result);
                     setSearchResults(result);
                 });
         }

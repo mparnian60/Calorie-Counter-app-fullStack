@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import { createDayPlanAPI } from '../api/dayPlanAPI';
+import createDayPlanAPI from '../api/dayPlanAPI';
 import FormCompleteMsg from './FormCompleteMsg'
 
-function CreateDayPlan(plan) {
+function CreateDayPlan() {
 
     const [submitMsg, setSubmitMsg] = useState({ msg: "", state: false });
     const [redirectHome, setRedirectHome] = useState(false);
