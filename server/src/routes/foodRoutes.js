@@ -44,14 +44,14 @@ router.use((req, res, next) => {
 
 // create new plan
 router.post('/newDayPlan', async (req, res) => {
-  console.log('date', req.body.date);
 
+   //convert date format comes from body to mongoDB format
   const firstFormat = moment.utc(req.body.date); // formats to ISO 8601 String
   const toUnix  = moment(firstFormat).format()
   removeZ = toUnix.substring(0,19)
   otherVar = ".000+00:00"
   finalValue = removeZ.concat(otherVar)
-  console.log('final value', finalValue);
+  // console.log('final value', finalValue);
 
   try {
 
@@ -76,21 +76,20 @@ router.post('/newDayPlan', async (req, res) => {
 // update plan
 router.post('/updateDayPlan', async (req, res) => {
 
+   //convert date format comes from body to mongoDB format
   const firstFormat = moment.utc(req.body.date); // formats to ISO 8601 String
   const toUnix  = moment(firstFormat).format()
   removeZ = toUnix.substring(0,19)
   otherVar = ".000+00:00"
   finalValue = removeZ.concat(otherVar)
-  console.log('final value', finalValue);
+  // console.log('final value', finalValue);
 
   try {
-    // const findExistingPlan = await DayPlan.find({date: finalValue })
+    // find all plans under below userID
     const findExistingPlan = await DayPlan.find({userId: req.body.userId })
-    // console.log('date', moment(req.body.date).toISOString());
-    console.log('find existing plan', findExistingPlan);
     if (findExistingPlan.length >= 1) {
+      // find a plans with chosen date and updat that one
       const updateExistingPlan = await DayPlan.findOneAndUpdate({date: finalValue },req.body, { new: true })
-      console.log("updateExistingPlan",updateExistingPlan);
       res.status(200).send(updateExistingPlan);
     } else {
       res.redirect(307, '/api/food/newDayPlan');
@@ -104,6 +103,13 @@ router.post('/updateDayPlan', async (req, res) => {
 
  //get dayPlan
  router.get('/dayPlan', async(req,res) =>{
+   //convert date format comes from body to mongoDB format
+  const firstFormat = moment.utc(req.body.date); // formats to ISO 8601 String
+  const toUnix  = moment(firstFormat).format()
+  removeZ = toUnix.substring(0,19)
+  otherVar = ".000+00:00"
+  finalValue = removeZ.concat(otherVar)
+
   const dayPlan = await DayPlan.find({ userId: req.body.userId, date: finalValue });
   res.status(200).send(dayPlan);
 })
