@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import splitFoodDesc from '../utils/splitFoodDesc';
-import createDayPlanAPI from '../api/dayPlanAPI';
+import {createDayPlanAPI} from '../api/dayPlanAPI';
 import DayPlanForm from './DayPlanForm';
 
 let dayPlanFormValue = {
