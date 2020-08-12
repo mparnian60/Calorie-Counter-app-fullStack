@@ -8,6 +8,12 @@ const schema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    startWeight:{
+        type: Number,
+    },
+    currentWeight:{
+        type: Number,
     }
 })
 
