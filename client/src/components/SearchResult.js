@@ -3,11 +3,10 @@ import DrawFoodResultToDom from "./DrawFoodResultToDom";
 
 const SearchResult = (props) => {
 
-    // console.log(props);
+    // console.log("searchresult props",props);
 
     return (
         <React.Fragment>
-            <h2> search result</h2>
             <div>
                 {props.foodResult.map((food) => {
                     // console.log('food', food);
@@ -22,3 +21,4 @@ const SearchResult = (props) => {
 }
 
 export default SearchResult;
+

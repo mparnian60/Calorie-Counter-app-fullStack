@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Home from './Home';
 import { Login, fakeAuth } from "./Login";
+import FoodDiary from './FoodDiary';
 
 //Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +18,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { red } from "@material-ui/core/colors";
+import SignUp from "./SignUp";
 
 
 
@@ -47,8 +49,8 @@ const isLoggedIn = () =>{
 export function Nav() {
 
   const classes = useStyles();
-  const [loggedIn, setLoggedIn] = useState(false);
-  console.log('logedin', loggedIn);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+  // console.log('logedin', loggedIn);
   const [msg, setMsg] = useState("");
 
   const handleLogout = () =>{
@@ -79,6 +81,9 @@ export function Nav() {
               {loggedIn && <Link to="/logout">
               <Button className={classes.loginBtn} color="inherit" onClick={handleLogout}>Logout</Button>
               </Link>}
+              {!loggedIn && <Link to="/signup">
+                <Button color="inherit">sign Up</Button>
+              </Link>}
               {!loggedIn && <Link to="/login">
               <Button className={classes.loginBtn} color="inherit">Login</Button>
               </Link>}
@@ -98,6 +103,9 @@ export function Nav() {
           <Route path="/dietCalendar">
           {loggedIn ? <DietCalendar /> : <Redirect to='login' />}
           </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
           <Route path="/login">
             <Login loginStatus={setLoggedIn}/>
           </Route>
@@ -111,11 +119,6 @@ export function Nav() {
   );
 }
 
-
-
-function FoodDiary() {
-  return <h2>Food Diary</h2>;
-}
 
 function WeightHistory() {
   return <h2>Weight History</h2>;

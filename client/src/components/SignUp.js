@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { loginAPI } from '../api/userAPI';
-import jwt from 'jwt-decode';
-
+import { Form } from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import { sortedLastIndex } from 'lodash';
+import { signUpAPI } from '../api/userAPI'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,56 +16,42 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             margin: theme.spacing(1),
         },
+        '& .makeStyles-root-5 > *': {
+            width: '5ch',
+            height: '350px',
+
+        }
     },
 }));
 
-export function Login(props) {
+const SignUp = () => {
     const classes = useStyles();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-
     let history = useHistory();
-    let location = useLocation();
 
-    // let { from } = location.state || { from: { pathname: "/" } };
-    // let login = () => {
-    //   fakeAuth.authenticate(() => {
-    //     history.replace(from);
-    //   });
-    // };
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [startWeight, setStartWeight] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleClick = () => {
 
-        loginAPI({
+        signUpAPI({
             username: username,
-            password: password
-        }).then((token) => {
-            // console.log(token);
-            const decoded = jwt(token);
-            // console.log(decoded);
+            password: password,
+            startWeight: startWeight
+        }).then(() => {
 
-            //save token in local storage
-            localStorage.setItem('token', token);
-            localStorage.setItem('userId', decoded.id);
-
-            props.loginStatus(true);
-
-            history.push('/');
+            history.push('/login');
 
         }).catch(e => {
             console.log(e);
             //do something to tell user it failed
         })
-
     }
 
+
     return (
-        <React.Fragment>
-            <Form onSubmit={handleSubmit}>
-            <form className={classes.root} noValidate autoComplete="off" >
+        <form className={classes.root} noValidate autoComplete="off" >
             <div className={classes.signup}>
                 <TextField
                     onChange={(e) => setUsername(e.currentTarget.value)}
@@ -84,14 +70,26 @@ export function Login(props) {
                     autoComplete="current-password"
                     variant="filled"
                 />
-                </div>
-                <Button variant="contained" color="primary">
-                    Submit
-                </Button>
-                </form>
-            </Form>
-        </React.Fragment>
-    )
+                <TextField
+                    onChange={(e) => setStartWeight(e.currentTarget.value)}
+                    id="filled-number"
+                    label="Start Weight"
+                    type="startWeight"
+                    Value={startWeight}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="filled"
+                />
+            </div>
+            <Button variant="contained" color="primary" onClick={handleClick}>
+                Submit
+            </Button>
+        </form>
+    );
 }
+
+export default SignUp;
+
 
 

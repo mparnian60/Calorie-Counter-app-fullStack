@@ -31,10 +31,11 @@ export async function upadteDayPlanAPI(food) {
 }
 
 //Get dayPlan
-export async function getDayPlanAPI(food) {
+export async function getDayPlanAPI(date) {
     
     const result = await fetch('/api/food/dayPlan', {
-        method: 'GET',
+        method: 'POST',
+        body: JSON.stringify({date:date}),
         headers: {
             'Content-Type': 'application/json',
             token: window.localStorage.getItem("token"),
