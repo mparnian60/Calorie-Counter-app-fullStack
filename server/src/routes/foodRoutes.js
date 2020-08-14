@@ -57,7 +57,7 @@ router.post('/newDayPlan', async (req, res) => {
 
     //checking whether combination of userID & date exist
     const findExistingPlan = await DayPlan.find({ userId: req.body.userId, date: finalValue })
-    console.log('date', moment(req.body.date).toISOString());
+    // console.log('date', moment(req.body.date).toISOString());
     if (findExistingPlan.length < 1) {
       const newDayPlan = await DayPlan.create(req.body);
       res.status(200).send(newDayPlan);
@@ -87,17 +87,27 @@ router.post('/updateDayPlan', async (req, res) => {
   try {
     // find all plans under below userID
     const findExistingPlan = await DayPlan.find({ userId: req.user.id , date: finalValue })
-    console.log('req.body',req.body);
+    // console.log('req.body',req.body);
 
     //conditions to add new record to the existing one
     if (findExistingPlan.length >= 1) {
-      console.log('findExistingPlan', findExistingPlan[0]);
+      // console.log('findExistingPlan', findExistingPlan[0]);
       const existingPlan = findExistingPlan[0];
-      console.log('servingsize', req.body.meal.breakfast[0].servingSize);
+      // console.log('servingsize', req.body.meal.breakfast[0].servingSize);
       if(req.body.meal.breakfast[0].servingSize){
         existingPlan.meal.breakfast.push(req.body.meal.breakfast[0]);
       }
-      console.log('existingPlan',existingPlan);
+      if(req.body.meal.lunch[0].servingSize){
+        existingPlan.meal.lunch.push(req.body.meal.lunch[0]);
+      }
+      if(req.body.meal.dinner[0].servingSize){
+        existingPlan.meal.dinner.push(req.body.meal.dinner[0]);
+      }
+      if(req.body.meal.snack[0].servingSize){
+        existingPlan.meal.snack.push(req.body.meal.snack[0]);
+      }
+
+      // console.log('existingPlan',existingPlan);
       // find a plans with chosen date and updat that one
       const updateExistingPlan = await DayPlan.findOneAndUpdate({ date: finalValue }, {$set:existingPlan}, { new: true })
       res.status(200).send(updateExistingPlan);
@@ -105,7 +115,7 @@ router.post('/updateDayPlan', async (req, res) => {
       res.redirect(307, '/api/food/newDayPlan');
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     res.status(400).send("Bad request");
   }
 })
