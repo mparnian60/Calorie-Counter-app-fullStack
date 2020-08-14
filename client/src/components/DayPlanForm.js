@@ -5,7 +5,7 @@ import createDayPlanAPI from '../api/dayPlanAPI';
 const DayPlanForm = (props) => {
     // console.log('dayplanform props',props);
 
-    const [servingSize, setServingsize] = useState({
+    const [mealAndServingSize, setMealAndServingsize] = useState({
         breakfast: 0,
         lunch: 0,
         dinner: 0,
@@ -22,9 +22,9 @@ const DayPlanForm = (props) => {
     //for having couple of variable in one state, we need to use the spread function (...) to make a new object
     //react always like to keep the previous and have the new and always compare them togeteher
     const onChange = (e) => {
-        const newServingSizes = { ...servingSize }
-        newServingSizes[e.target.name] = e.target.value
-        setServingsize(newServingSizes);
+        const newMealAndServingSizes = { ...mealAndServingSize }
+        newMealAndServingSizes[e.target.name] = e.target.value
+        setMealAndServingsize(newMealAndServingSizes);
     }
 
     //now we capture everytime state changes and as setStae is a asynchronous function, if we don't put it in a useeffect, 
@@ -32,7 +32,7 @@ const DayPlanForm = (props) => {
     useEffect(() => {
         props.onChangeDayPlanFormValue({
             date: date,
-            meal: servingSize
+            meal: mealAndServingSize
         })
     })
 
@@ -44,22 +44,22 @@ const DayPlanForm = (props) => {
                 <Label for="backdrop">Choose your meal by adding the Serving Size</Label>{' '}
                 <FormGroup>
                     <Label >Breakfast</Label>
-                    <Input type="number" name="breakfast" value={servingSize.breakfast} onChange={onChange} />
+                    <Input type="number" name="breakfast" value={mealAndServingSize.breakfast} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Lunch</Label>
-                <Input type="number" name="lunch" value={servingSize.lunch} onChange={onChange} />
+                <Input type="number" name="lunch" value={mealAndServingSize.lunch} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Dinner</Label>
-                <Input type="number" name="dinner" value={servingSize.dinner} onChange={onChange} />
+                <Input type="number" name="dinner" value={mealAndServingSize.dinner} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Snack/Other</Label>
-                <Input type="number" name="snack" value={servingSize.snack} onChange={onChange} />
+                <Input type="number" name="snack" value={mealAndServingSize.snack} onChange={onChange} />
                 </FormGroup>
 
             </FormGroup>

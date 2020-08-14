@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,27 +7,24 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {getFoodDetails} from '../api/foodDetailsAPI'
+import { getFoodDetailsAPI } from '../api/foodDetailsAPI'
+import DrawFoodDiaryTableToDom from './DrawFoodDiaryTableToDom';
 
 
 const useStyles = makeStyles({
     table: {
-        minWidth: 650,
-        maxWidth: 1000,
+        minWidth: 450,
+        maxWidth: 600,
+        marginTop: 10,
+        marginLeft: 20,
+        marginBottom: 10,
+        marginRight: 20,
+
+
     },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 //having {dayPlanResult} with curley bracket is the shortcut of having props in prantesis & have // const {dayPlanResult} = props;
 //if we have more props coming to this function we can separate them with comma
 const FoodDiaryTable = ({ dayPlanResult }) => {
@@ -38,53 +35,141 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
 
     const classes = useStyles();
 
-    const findBreakfastMeal = async() =>{
+    const [mealDetailsB, setMealDetailsB] = useState([]);
+    const [mealDetailsL, setMealDetailsL] = useState([]);
+    const [mealDetailsD, setMealDetailsD] = useState([]);
+    const [mealDetailsS, setMealDetailsS] = useState([]);
 
-        // const foodDeatisl =  await getFoodDetails(dayPlanResult[0].meal.breakfast[0].foodId);
-        // console.log('foodDetails', foodDeatisl);
 
-        dayPlanResult.length && dayPlanResult[0].meal.breakfast.map((meal) => {
-            console.log('meal', meal.foodId);
-           
-        })
+    useEffect(() => {
+        if (dayPlanResult.length) {
+            findBreakfastMeal(dayPlanResult[0]).then((mealDetailsB) => {
+                console.log('mealDetailsB', mealDetailsB);
+                if (mealDetailsB.length) {
+                    setMealDetailsB(mealDetailsB)
+                }
+            });
+       
+            findLunchMeal(dayPlanResult[0]).then((mealDetails) => {
+                console.log('mealDetailsL', mealDetails);
+                if (mealDetails.length) {
+                    setMealDetailsL(mealDetails)
+                }
+            });
+       
+            findDinnerMeal(dayPlanResult[0]).then((mealDetails) => {
+                console.log('mealDetailsD', mealDetails);
+                if (mealDetails.length) {
+                    setMealDetailsD(mealDetails)
+                }
+            });
+    
+            findSnackMeal(dayPlanResult[0]).then((mealDetails) => {
+                console.log('mealDetailsS', mealDetails);
+                if (mealDetails.length) {
+                    setMealDetailsS(mealDetails)
+                }
+            });
+        }
+
+    }, [dayPlanResult])
+
+    // dayPlanResult.meal.breakfast[0].foodId
+
+    const findBreakfastMeal = async (dayPlan) => {
+
+        return Promise.all(
+            dayPlan.meal.breakfast.map(async (meal) => {
+                console.log('meal', meal);
+                const result = await getFoodDetailsAPI(meal.foodId)
+                console.log('result breakfast', result);
+                //think about if there is no result
+                return ({
+                    name: result[0].food_name,
+                    servingSize: meal.servingSize,
+                    calories: result[0].calories,
+                    fat: result[0].fat,
+                    carbs: result[0].carbs,
+                    protein: result[0].protein
+                });
+            }),
+        )
+
     }
-    findBreakfastMeal();
+
+    const findLunchMeal = async (dayPlan) => {
+
+        return Promise.all(
+            dayPlan.meal.lunch.map(async (meal) => {
+                console.log('meal', meal);
+                const result = await getFoodDetailsAPI(meal.foodId)
+                console.log('result', result);
+                //think about if there is no result
+                return ({
+                    name: result[0].food_name,
+                    servingSize: meal.servingSize,
+                    calories: result[0].calories,
+                    fat: result[0].fat,
+                    carbs: result[0].carbs,
+                    protein: result[0].protein
+                });
+            })
+        )
+
+    }
+
+    const findDinnerMeal = async (dayPlan) => {
+
+        return Promise.all(
+            dayPlan.meal.dinner.map(async (meal) => {
+                console.log('meal', meal);
+                const result = await getFoodDetailsAPI(meal.foodId)
+                console.log('result', result);
+                //think about if there is no result
+                return ({
+                    name: result[0].food_name,
+                    servingSize: meal.servingSize,
+                    calories: result[0].calories,
+                    fat: result[0].fat,
+                    carbs: result[0].carbs,
+                    protein: result[0].protein
+                });
+            })
+        )
+
+    }
+
+    const findSnackMeal = async (dayPlan) => {
+
+        return Promise.all(
+            dayPlan.meal.dinner.map(async (meal) => {
+                console.log('meal', meal.servingSize);
+                const result = await getFoodDetailsAPI(meal.foodId)
+                console.log('result', result);
+                //think about if there is no result
+                return ({
+                    name: result[0].food_name,
+                    servingSize: meal.servingSize,
+                    calories: result[0].calories,
+                    fat: result[0].fat,
+                    carbs: result[0].carbs,
+                    protein: result[0].protein
+                });
+            })
+        )
+
+    }
 
     return (
-        <div>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Breakfast (100g serving)</TableCell>
-                            <TableCell align="right">Calories&nbsp;(kcal)</TableCell>
-                            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.name}>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
-                                </TableCell>
-                                <TableCell align="right">{row.calories}</TableCell>
-                                <TableCell align="right">{row.fat}</TableCell>
-                                <TableCell align="right">{row.carbs}</TableCell>
-                                <TableCell align="right">{row.protein}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
 
+        <DrawFoodDiaryTableToDom
+            mealDetailsB={mealDetailsB} keyB={mealDetailsB.foodId} 
+            mealDetailsL={mealDetailsL} keyL={mealDetailsL.foodId}
+            mealDetailsD={mealDetailsD} keyD={mealDetailsD.foodId}
+            mealDetailsS={mealDetailsS} keyS={mealDetailsS.foodId}
+        />
     )
 }
-
-
-
 
 
 export default FoodDiaryTable;

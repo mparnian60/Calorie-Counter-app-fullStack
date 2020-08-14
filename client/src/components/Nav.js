@@ -19,6 +19,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { red } from "@material-ui/core/colors";
 import SignUp from "./SignUp";
+import ColoredDateCellWrapper from './Calendar'
+import MyCalendar from "./Calendar";
+import CustomizedTables from './Example'
 
 
 
@@ -121,11 +124,15 @@ export function Nav() {
 
 
 function WeightHistory() {
-  return <h2>Weight History</h2>;
+  return (
+    <CustomizedTables/>
+  )
 }
 
 function DietCalendar() {
-  return <h2>Diet Calendar</h2>;
+  return (
+    <MyCalendar />
+  );
 }
 
 

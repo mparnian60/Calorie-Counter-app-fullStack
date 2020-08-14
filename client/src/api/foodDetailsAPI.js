@@ -15,7 +15,7 @@ export async function createFoodDetailsAPI(foodDescription) {
 }
 
 //GET food deatils by food id
-export async function getFoodDetails(foodId) {
+export async function getFoodDetailsAPI(foodId) {
     // console.log('fetch',fetchHeaderOptions());
     const result = await fetch('/api/foodDetails/details/' + foodId, {
         headers: {
@@ -24,6 +24,7 @@ export async function getFoodDetails(foodId) {
         }
     });
     const data = await result.json();
+    // console.log('getFoodDetailsAPI data', data);
 
     return data;
 }
