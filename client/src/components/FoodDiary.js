@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
 import FoodDiaryTable from './FoodDiaryTable';
 
 //Import for material UI
@@ -23,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
 const FoodDiary = (props) => {
     
-
+    const history = useHistory();
+    console.log('history', history);
+    const params = useParams();
+    console.log('prams', params);
     const changeISOformat = moment().format('YYYY-MM-DD');
     const [date, setDate] = useState(changeISOformat);
     const [error,setError] = useState(false);
@@ -35,6 +39,8 @@ const FoodDiary = (props) => {
         e.preventDefault();
         let value = e.target.value;
         setDate(value);
+        setDayPlanResult([]);
+        console.log('date', value);
     }
 
     // const getDayPlanFromAPI = ()=>{
@@ -54,8 +60,15 @@ const FoodDiary = (props) => {
     // console.log('dayPlanResult', dayPlanResult);
 
     useEffect(()=>{
+        if(params.date){
+            setDate(params.date)
+        }
+    },[])
+
+    useEffect(()=>{
+        console.log('date before',date);
         if(date) {
-            // console.log('date',date);
+            console.log('date after',date);
             getDayPlanAPI(date).then((result) =>{
                 // console.log('result', result);
                 setDayPlanResult(result);

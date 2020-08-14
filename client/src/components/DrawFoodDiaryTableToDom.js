@@ -8,35 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-
-const TAX_RATE = 0.07;
-
-function ccyFormat(num) {
-    return `${num.toFixed(2)}`;
-}
-
-function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-}
-
-function priceRow(qty, unit) {
-    return qty * unit;
-  }
-
-function createRow(desc, qty, unit) {
-    const price = priceRow(qty, unit);
-    return { desc, qty, unit, price };
-  }
-
-const rows = [
-    createRow('Paperclips (Box)', 100, 1.15),
-    createRow('Paper (Case)', 10, 45.99),
-    createRow('Waste Basket', 2, 17.99),
-];
-
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -57,7 +31,11 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    margin: {
+        margin: theme.spacing(1),
+        padding: theme.spacing(1),
+    },
     table: {
         minWidth: 550,
         margin: 'auto',
@@ -67,232 +45,255 @@ const useStyles = makeStyles({
         // marginBottom: 10,
         // marginRight: 20,
     },
-});
+}));
 
 
+const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS }) => {
 
-const DrawFoodDiaryTableToDom = ({ mealDetailsB, keyB, mealDetailsL, keyL, mealDetailsD, keyD, mealDetailsS, keyS }) => {
-
-    const calTotalCalori = (mealDetails)=>{
+    const calTotalCalori = (mealDetails) => {
         let total = 0;
-        if(mealDetails.length){
-            mealDetails.map((cal)=>{
-                return total += cal.calories;   
+        if (mealDetails.length) {
+            mealDetails.map((cal) => {
+                return total += ((cal.calories)*(cal.servingSize));
             })
         }
         return total;
     }
 
-    const calTotalFat = (mealDetails)=>{
+    const calTotalFat = (mealDetails) => {
         let total = 0;
-        if(mealDetails.length){
-            mealDetails.map((cal)=>{
-                return total += cal.fat;   
+        if (mealDetails.length) {
+            mealDetails.map((cal) => {
+                return total += ((cal.fat)*(cal.servingSize));
             })
         }
         return total;
     }
 
-    const calTotalCarbs = (mealDetails)=>{
+    const calTotalCarbs = (mealDetails) => {
         let total = 0;
-        if(mealDetails.length){
-            mealDetails.map((cal)=>{
-                return total += cal.carbs;   
+        if (mealDetails.length) {
+            mealDetails.map((cal) => {
+                return total += ((cal.carbs)*(cal.servingSize));
             })
         }
         return total;
     }
 
-    const calTotalProtein = (mealDetails)=>{
+    const calTotalProtein = (mealDetails) => {
         let total = 0;
-        if(mealDetails.length){
-            mealDetails.map((cal)=>{
-                return total += cal.protein;   
+        if (mealDetails.length) {
+            mealDetails.map((cal) => {
+                return total += ((cal.protein)*(cal.servingSize));
             })
         }
         return total;
     }
 
-    
-    
+
+
 
     const classes = useStyles();
 
     return (
         <React.Fragment>
-            <Box ml={25} mr={25}>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Breakfast (100g serving)</StyledTableCell>
-                            <StyledTableCell>Serving Size</StyledTableCell>
-                            <StyledTableCell align="right">Calories</StyledTableCell>
-                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {mealDetailsB.map((row) => (
-                            <StyledTableRow keyB={keyB}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
-                                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell rowSpan={3} />
-                            <TableCell colSpan={1}>Total</TableCell>
-                            <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Kcal</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={1}></TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsB).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsB).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsB).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsB).toFixed(0)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Lunch (100g serving)</StyledTableCell>
-                            <StyledTableCell>Serving Size</StyledTableCell>
-                            <StyledTableCell align="right">Calories</StyledTableCell>
-                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {mealDetailsL.map((row) => (
-                            <StyledTableRow keyL={keyL}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
-                                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell rowSpan={3} />
-                            <TableCell colSpan={1}>Total</TableCell>
-                            <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Kcal</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={1}></TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsL).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsL).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsL).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsL).toFixed(0)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Dinner (100g serving)</StyledTableCell>
-                            <StyledTableCell>Serving Size</StyledTableCell>
-                            <StyledTableCell align="right">Calories</StyledTableCell>
-                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {mealDetailsD.map((row) => (
-                            <StyledTableRow keyD={keyD}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
-                                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell rowSpan={3} />
-                            <TableCell colSpan={1}>Total</TableCell>
-                            <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Kcal</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={1}></TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsD).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsD).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsD).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsD).toFixed(0)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Snack (100g serving)</StyledTableCell>
-                            <StyledTableCell>Serving Size</StyledTableCell>
-                            <StyledTableCell align="right">Calories</StyledTableCell>
-                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {mealDetailsS.map((row) => (
-                            <StyledTableRow keyS={keyS}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
-                                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell rowSpan={3} />
-                            <TableCell colSpan={1}>Total</TableCell>
-                            <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
-                            <TableCell align="center" colSpan={1}>Kcal</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={1}></TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsS).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsS).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsS).toFixed(0)}</TableCell>
-                            <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsS).toFixed(0)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <Box ml={15} mr={15}>
+                {mealDetailsB.length >0 &&
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell></StyledTableCell>
+                                    <StyledTableCell>Breakfast (100g serving)</StyledTableCell>
+                                    <StyledTableCell>Serving Size</StyledTableCell>
+                                    <StyledTableCell align="right">Calories</StyledTableCell>
+                                    <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                                    <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+                                    <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {mealDetailsB.map((row) => (
+                                    <StyledTableRow key={row._id}>
+                                        <IconButton aria-label="delete" className={classes.margin}>
+                                            <DeleteIcon fontSize="small" />
+                                        </IconButton>
+                                        <StyledTableCell component="th" scope="row">
+                                            {row.name}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                                        <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                <TableRow>
+                                    <TableCell rowSpan={3} />
+                                    <TableCell colSpan={1}>Total</TableCell>
+                                    <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
+                                    <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
+                                    <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
+                                    <TableCell align="center" colSpan={1}>Kcal</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={1}></TableCell>
+                                    <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsB).toFixed(2)}</TableCell>
+                                    <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsB).toFixed(2)}</TableCell>
+                                    <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsB).toFixed(2)}</TableCell>
+                                    <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsB).toFixed(0)}</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
+                {mealDetailsL.length >0 &&
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell></StyledTableCell>
+                                <StyledTableCell>Lunch (100g serving)</StyledTableCell>
+                                <StyledTableCell>Serving Size</StyledTableCell>
+                                <StyledTableCell align="right">Calories</StyledTableCell>
+                                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {mealDetailsL.map((row) => (
+                                <StyledTableRow key={row._id}>
+                                    <IconButton aria-label="delete" className={classes.margin}>
+                                        <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.name}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                            <TableRow>
+                                <TableCell rowSpan={3} />
+                                <TableCell colSpan={1}>Total</TableCell>
+                                <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Kcal</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={1}></TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsL).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsL).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsL).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsL).toFixed(0)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                }
+                {mealDetailsD.length >0 &&
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell></StyledTableCell>
+                                <StyledTableCell>Dinner (100g serving)</StyledTableCell>
+                                <StyledTableCell>Serving Size</StyledTableCell>
+                                <StyledTableCell align="right">Calories</StyledTableCell>
+                                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {mealDetailsD.map((row) => (
+                                <StyledTableRow key={row._id}>
+                                    <IconButton aria-label="delete" className={classes.margin}>
+                                        <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.name}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                            <TableRow>
+                                <TableCell rowSpan={3} />
+                                <TableCell colSpan={1}>Total</TableCell>
+                                <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Kcal</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={1}></TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsD).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsD).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsD).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsD).toFixed(0)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                }
+                {mealDetailsS.length >0 &&
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell></StyledTableCell>
+                                <StyledTableCell>Snack (100g serving)</StyledTableCell>
+                                <StyledTableCell>Serving Size</StyledTableCell>
+                                <StyledTableCell align="right">Calories</StyledTableCell>
+                                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+                                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {mealDetailsS.map((row) => (
+                                <StyledTableRow key={row._id}>
+                                    <IconButton aria-label="delete" className={classes.margin}>
+                                        <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.name}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.servingSize}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                            <TableRow>
+                                <TableCell rowSpan={3} />
+                                <TableCell colSpan={1}>Total</TableCell>
+                                <TableCell align="center" colSpan={1}>Fat(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Carbs(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Prot(g)</TableCell>
+                                <TableCell align="center" colSpan={1}>Kcal</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={1}></TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalFat(mealDetailsS).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCarbs(mealDetailsS).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalProtein(mealDetailsS).toFixed(2)}</TableCell>
+                                <TableCell align="center" colSpan={1}>{calTotalCalori(mealDetailsS).toFixed(0)}</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                }
             </Box>
         </React.Fragment>
     );

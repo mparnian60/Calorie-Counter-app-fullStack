@@ -98,7 +98,7 @@ export function Nav() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/foodDiary">
+          <Route path="/foodDiary/:date?">
           {loggedIn ? <FoodDiary /> : <Redirect to='login' />}
           </Route>
           <Route path="/weightHistory">

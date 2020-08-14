@@ -42,6 +42,12 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
 
 
     useEffect(() => {
+        if(!dayPlanResult.length){
+            setMealDetailsB([]);
+            setMealDetailsL([]);
+            setMealDetailsD([]);
+            setMealDetailsS([]);
+        }
         if (dayPlanResult.length) {
             findBreakfastMeal(dayPlanResult[0]).then((mealDetailsB) => {
                 // console.log('mealDetailsB', mealDetailsB);
@@ -142,7 +148,7 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
     const findSnackMeal = async (dayPlan) => {
 
         return Promise.all(
-            dayPlan.meal.dinner.map(async (meal) => {
+            dayPlan.meal.snack.map(async (meal) => {
                 // console.log('meal', meal.servingSize);
                 const result = await getFoodDetailsAPI(meal.foodId)
                 // console.log('result', result);
@@ -163,10 +169,10 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
     return (
 
         <DrawFoodDiaryTableToDom
-            mealDetailsB={mealDetailsB} keyB={mealDetailsB.foodId} 
-            mealDetailsL={mealDetailsL} keyL={mealDetailsL.foodId}
-            mealDetailsD={mealDetailsD} keyD={mealDetailsD.foodId}
-            mealDetailsS={mealDetailsS} keyS={mealDetailsS.foodId}
+            mealDetailsB={mealDetailsB} 
+            mealDetailsL={mealDetailsL} 
+            mealDetailsD={mealDetailsD} 
+            mealDetailsS={mealDetailsS} 
         />
     )
 }
