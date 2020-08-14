@@ -22,6 +22,7 @@ import SignUp from "./SignUp";
 import ColoredDateCellWrapper from './Calendar'
 import MyCalendar from "./Calendar";
 import CustomizedTables from './Example'
+import Example from "./Example";
 
 
 
@@ -125,7 +126,7 @@ export function Nav() {
 
 function WeightHistory() {
   return (
-    <CustomizedTables/>
+    <Example/>
   )
 }
 

@@ -17,6 +17,7 @@
     "bootstrap": "^4.5.0",
     "date-fns": "^2.15.0",
     "jwt-decode": "2.2.0",
+    "material-table": "^1.68.0",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-big-calendar": "^0.26.0",
