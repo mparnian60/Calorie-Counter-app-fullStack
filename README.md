@@ -1,6 +1,6 @@
 # PROJECT #3 FoodCount-app-fullStack (MERN Stack + Auth)
 
-## Project Overview
+## PROJECT OVERVIEW
 The Overview of this project was to create an app which can calculate calories per meal per day. User is able to signup and create a profile and save foods per meal for any days. This app will calculate total amount of calories user consume each day based on chosen meal and number of serving sizes. The main goal of this app is to help user to be able to control amount of calories consume every day and then by having that figure, user is able to choose foods with lower calories and fat in order to lose weight, tone up, get healthy, change the habits, or start a new diet.
 
 * **Scope -** AIM: The aim of the project is to build a simple app to count food calories for the user.
@@ -21,7 +21,7 @@ The Core requirements set out for this project where the following:
 * **Views.** Use partial views to avoid DRY practices.
 * **Handles invalid data.** Appropriate form handlers to validate data or notify users of invalid data.
 * **User Login.** Basic User Authentication.
-## Overall Layout
+## OVERALL LAYOUT
 ### Signup/ Login Page
 User is able to create a username & password to be used for login.
 ### Home page
