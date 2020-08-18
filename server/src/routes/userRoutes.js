@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
                 username: data.username
             }
 
-            jwt.sign(payload, privateKey, { expiresIn: "1h" }, ((err, token) => {
+            jwt.sign(payload, privateKey, { expiresIn: "24h" }, ((err, token) => {
                 // console.log(token);
                 res.set('token', token);
                 res.send('token created')
@@ -51,14 +51,6 @@ router.post('/login', async (req, res) => {
     }
 })
 
-// //logout
-// router.get('/logout', async (req, res) => {
-//     req.session.destroy(() => {
-//         res.status(200).send({
-//             message: 'user logged out'
-//         });
-//     })
-// })
 
 
 
