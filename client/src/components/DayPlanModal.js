@@ -4,7 +4,7 @@ import { splitFoodDesc, splitByColon } from '../utils/splitFoodDesc';
 import { createDayPlanAPI } from '../api/dayPlanAPI';
 import { createFoodDetailsAPI } from '../api/foodDetailsAPI'
 import DayPlanForm from './DayPlanForm';
-import {splitfunction} from '../utils/splitFoodDesc';
+import { splitfunction } from '../utils/splitFoodDesc';
 
 let dayPlanFormValue = {
     date: "",
@@ -16,16 +16,17 @@ let dayPlanFormValue = {
     }
 };
 
-const DayPlanModal = (props) => {
-   
+const DayPlanModal = ({ foodDetails, showModal, setShowModal, date }) => {
+
+
     //split food desc and capture food deatils value
-    const splitArray = splitfunction(props.foodDetails.food_description);
+    const splitArray = splitfunction(foodDetails.food_description);
     // console.log('splitArray', splitArray);
     //take kcal out of calories
     const calories = splitArray[2].toString().split('kcal');
-    
 
-    const toggle = () => props.setShowModal(!props.showModal);
+
+    const toggle = () => setShowModal(!showModal);
 
     // console.log('dayPlanFormValue',dayPlanFormValue);
 
@@ -38,13 +39,13 @@ const DayPlanModal = (props) => {
     const onChangeDayPlanFormValue = (dayPlanData) => {
         dayPlanFormValue = dayPlanData;
         //    console.log('dayplandata', dayPlanData);
-        dayPlanData.meal.breakfast > 0 && setbreakfastFoodId(props.foodDetails.food_id);
-        dayPlanData.meal.lunch > 0 && setLunchFoodId(props.foodDetails.food_id);
-        dayPlanData.meal.dinner > 0 && setDinnerFoodId(props.foodDetails.food_id);
-        dayPlanData.meal.snack > 0 && setSnackFoodId(props.foodDetails.food_id);
+        dayPlanData.meal.breakfast > 0 && setbreakfastFoodId(foodDetails.food_id);
+        dayPlanData.meal.lunch > 0 && setLunchFoodId(foodDetails.food_id);
+        dayPlanData.meal.dinner > 0 && setDinnerFoodId(foodDetails.food_id);
+        dayPlanData.meal.snack > 0 && setSnackFoodId(foodDetails.food_id);
     }
 
-   
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -69,13 +70,13 @@ const DayPlanModal = (props) => {
 
         //add chosen food to food details
         createFoodDetailsAPI({
-            food_id: props.foodDetails.food_id,
-            food_name: props.foodDetails.food_name,
-            food_type: props.foodDetails.food_type,
+            food_id: foodDetails.food_id,
+            food_name: foodDetails.food_name,
+            food_type: foodDetails.food_type,
             calories: calories[0],
             fat: splitArray[4][0],
             carbs: splitArray[6][0],
-            protein:splitArray[8][0]
+            protein: splitArray[8][0]
         })
     }
 
@@ -84,20 +85,23 @@ const DayPlanModal = (props) => {
 
     return (
         <Form>
-            <Modal isOpen={props.showModal} toggle={toggle} >
+            <Modal isOpen={showModal} toggle={toggle} style={{ zIndex: 99 }}>
                 <ModalHeader toggle={toggle}>
                     <h3>Nutrition Facts</h3>
-                    {props.foodDetails.food_name}
+                    {foodDetails.food_name}
                 </ModalHeader>
-                <ModalBody>
-
-                    <DayPlanForm foodId={props.foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} />
-                    <h6>Food Description per 100g: {splitFoodDesc(props.foodDetails.food_description).map((details) => {
+                <ModalHeader>
+                    <h5>Food Description per 100g: </h5>
+                    <h6>Food Type: {foodDetails.food_type}</h6>
+                        {splitFoodDesc(foodDetails.food_description).map((details) => {
                         return (
                             <h6>{details}</h6>
                         )
-                    })}</h6>
-                    <h6>Food Type: {props.foodDetails.food_type}</h6>
+                    })}
+                    
+                </ModalHeader>
+                <ModalBody>
+                    <DayPlanForm foodId={foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} date={date} />
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={handleFormSubmit}>Save</Button>{' '}

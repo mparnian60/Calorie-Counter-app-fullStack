@@ -10,15 +10,17 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
+import picture1 from './images/picture1.jpg';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 800,
-        margin:'auto',
-        marginTop: 50,
+        width: '80%',
+        margin:'40px auto',
+        // marginTop: 50,
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -31,9 +33,14 @@ const useStyles = makeStyles((theme) => ({
         height: 28,
         margin: 4,
     },
+    // outerDiv:{
+    //     backgroundSize:'cover',
+    //     width:'100%',
+    //     height: 500,
+    // }
 }));
 
-const Search = () => {
+const Search = ({date}) => {
     const classes = useStyles();
 
     const [searchItem, setSearchItem] = useState("");
@@ -55,8 +62,13 @@ const Search = () => {
         }
     }
 
+    const backgroundImg = require('./images/picture1.jpg');
+
     return (
-        <React.Fragment>
+        <React.Fragment >
+            <div className={classes.outerDiv}>
+            {/* <div className={classes.outerDiv} style ={ { backgroundImage: "url("+backgroundImg+")" } }> */}
+                {/* <img src={require('./images/picture1.jpg')} ></img> */}
             <Form onSubmit={handleSearchSubmit}>
                 <Paper component="form" className={classes.root}>
                     <InputBase
@@ -70,8 +82,10 @@ const Search = () => {
                         <SearchIcon />
                     </IconButton>
                 </Paper>
-                <SearchResult foodResult={searchResult} />
+                <SearchResult foodResult={searchResult} date={date}/>
             </Form>
+            {/* </div> */}
+            </div>
         </React.Fragment>
 
     )

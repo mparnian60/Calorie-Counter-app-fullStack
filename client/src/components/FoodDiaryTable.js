@@ -91,6 +91,7 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
                 // console.log('result breakfast', result);
                 //think about if there is no result
                 return ({
+                    foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
                     calories: result[0].calories,
@@ -112,6 +113,7 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
                 // console.log('result', result);
                 //think about if there is no result
                 return ({
+                    foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
                     calories: result[0].calories,
@@ -133,6 +135,7 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
                 // console.log('result', result);
                 //think about if there is no result
                 return ({
+                    foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
                     calories: result[0].calories,
@@ -154,6 +157,7 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
                 // console.log('result', result);
                 //think about if there is no result
                 return ({
+                    foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
                     calories: result[0].calories,

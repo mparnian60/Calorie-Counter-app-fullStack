@@ -35,10 +35,16 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 3,
   },
   loginBtn:{
   color: 'white',
+  },
+  push:{
+    marginLeft: 'auto',
+  },
+  nav:{
+    backgroundSize: '100vh',
   }
 }));
 
@@ -66,27 +72,27 @@ export function Nav() {
 
   return (
     <Router>
-      <div>
+      <div className={classes.nav}>
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
               <Link to="/">
-                <Button color="inherit">Home</Button>
+                <Button className={classes.loginBtn} color="inherit">Home</Button>
               </Link>
               <Link to="/foodDiary">
-                <Button color="inherit">Food Diary</Button>
+                <Button className={classes.loginBtn} color="inherit">Food Diary</Button>
               </Link>
               <Link to="/weightHistory">
-                <Button color="inherit">Weight History</Button>
+                <Button className={classes.loginBtn} color="inherit">Weight History</Button>
               </Link>
               <Link to="/dietCalendar">
-                <Button color="inherit">Diet Calendar</Button>
+                <Button className={classes.loginBtn} color="inherit">Diet Calendar</Button>
               </Link>
-              {loggedIn && <Link to="/logout">
+              {loggedIn && <Link className={classes.push} to="/logout">
               <Button className={classes.loginBtn} color="inherit" onClick={handleLogout}>Logout</Button>
               </Link>}
-              {!loggedIn && <Link to="/signup">
-                <Button color="inherit">sign Up</Button>
+              {!loggedIn && <Link className={classes.push} to="/signup">
+                <Button className={classes.loginBtn} color="inherit">sign Up</Button>
               </Link>}
               {!loggedIn && <Link to="/login">
               <Button className={classes.loginBtn} color="inherit">Login</Button>

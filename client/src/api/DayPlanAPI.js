@@ -45,3 +45,17 @@ export async function getDayPlanAPI(date) {
 
     return data;
 }
+
+// Get all dayPlan for a user
+export async function getAllDayPlanAPI(userId) {
+    
+    const result = await fetch('/api/food/allDayPlan', {
+        headers: {
+            'Content-Type': 'application/json',
+            token: window.localStorage.getItem("token"),
+        }
+    });
+    const data = await result.json();
+
+    return data;
+}

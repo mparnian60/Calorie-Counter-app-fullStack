@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Label, Form, FormGroup } from 'reactstrap';
 import createDayPlanAPI from '../api/dayPlanAPI';
 
-const DayPlanForm = (props) => {
+const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
     // console.log('dayplanform props',props);
 
     const [mealAndServingSize, setMealAndServingsize] = useState({
@@ -11,11 +11,11 @@ const DayPlanForm = (props) => {
         dinner: 0,
         snack: 0
     });
-    const [date, setDate] = useState("");
+    const [newdate, setDate] = useState(date)
 
 
     const handleDate = e => {
-        let value = e.target.value;
+        let value = e.currentTarget.value;
         setDate(value);
     }
 
@@ -30,8 +30,8 @@ const DayPlanForm = (props) => {
     //now we capture everytime state changes and as setStae is a asynchronous function, if we don't put it in a useeffect, 
     //onChangeDayPlanFormValue get called before change state get captured
     useEffect(() => {
-        props.onChangeDayPlanFormValue({
-            date: date,
+        onChangeDayPlanFormValue({
+            date: newdate,
             meal: mealAndServingSize
         })
     })
@@ -41,34 +41,36 @@ const DayPlanForm = (props) => {
     return (
         <Form>
             <FormGroup className="mx-2" check>
-                <Label for="backdrop">Choose your meal by adding the Serving Size</Label>{' '}
+                <Label for="backdrop" fdxzzx>Choose your meal by adding the Serving Size</Label>{' '}
                 <FormGroup>
                     <Label >Breakfast</Label>
-                    <Input type="number" name="breakfast" value={mealAndServingSize.breakfast} onChange={onChange} />
+                    <Input  className="modalInput" type="number" name="breakfast" value={mealAndServingSize.breakfast} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Lunch</Label>
-                <Input type="number" name="lunch" value={mealAndServingSize.lunch} onChange={onChange} />
+                <Input className="modalInput" type="number" name="lunch" value={mealAndServingSize.lunch} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Dinner</Label>
-                <Input type="number" name="dinner" value={mealAndServingSize.dinner} onChange={onChange} />
+                <Input className="modalInput" type="number" name="dinner" value={mealAndServingSize.dinner} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Snack/Other</Label>
-                <Input type="number" name="snack" value={mealAndServingSize.snack} onChange={onChange} />
+                <Input className="modalInput" type="number" name="snack" value={mealAndServingSize.snack} onChange={onChange} />
+                </FormGroup>
+
+                <FormGroup>
+                <Label for="backdrop">Date</Label>{' '}
+                <Input className="modalInput" type="date" name="date" id="backdrop" value={newdate} onChange={handleDate}>
+                </Input>
                 </FormGroup>
 
             </FormGroup>
             {' '}
-            <FormGroup>
-                <Label for="backdrop">Date</Label>{' '}
-                <Input type="date" name="date" id="backdrop" onChange={handleDate}>
-                </Input>
-            </FormGroup>
+            
             {/* <FormGroup>
                 <Label for="backdrop">Serving size</Label>{' '}
                 <Input type="number" name="servingSize" id="backdrop" onChange={handleServingSize}>
