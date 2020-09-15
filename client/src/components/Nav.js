@@ -63,11 +63,14 @@ export function Nav() {
   // console.log('logedin', loggedIn);
   const [msg, setMsg] = useState("");
 
+  let history = useHistory();
+
   const handleLogout = () =>{
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('userId');
     setLoggedIn(false);
 
+    history.push('/');
   }
 
   return (
