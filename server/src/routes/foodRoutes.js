@@ -33,6 +33,7 @@ router.use((req, res, next) => {
 
   jwt.verify(token, privateKey, { algorithms: ["HS256"] }, (err, decoded) => {
     if (!err) {
+      console.log('decoded', decoded);
       req.user = decoded //store userinfo in requset object
       next();  //middleware complete, move to next endpoint
     } else {

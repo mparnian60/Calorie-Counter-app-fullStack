@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
             jwt.sign(payload, privateKey, { expiresIn: "24h" }, ((err, token) => {
                 // console.log(token);
                 res.set('token', token);
-                res.send('token created')
+                res.send('token created', token)
             }));
 
         } else {
