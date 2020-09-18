@@ -59,3 +59,18 @@ export async function getAllDayPlanAPI(userId) {
 
     return data;
 }
+
+//delete food from a meal
+export async function deletfoodAPI(foodDetails){
+    const result = await fetch('/api/food/deleteFood',{
+        method: 'DELETE',
+        body: JSON.stringify(foodDetails),
+        headers: {
+            'Content-Type': 'application/json',
+            token: window.localStorage.getItem("token"),
+        }
+    });
+    const data = await result.json();
+
+    return data;
+}
