@@ -113,7 +113,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
             }
         }
 
-        
+
         console.log('row',row);
     }
 
@@ -197,7 +197,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
                             <TableBody>
                                 {mealDetailsL.map((row) => (
                                     <StyledTableRow key={row._id}>
-                                        <IconButton aria-label="delete" className={classes.margin}>
+                                        <IconButton aria-label="delete" className={classes.margin} onClick={((e) => handleDeleteClick(e, row))}>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
                                         <StyledTableCell component="th" scope="row">
@@ -247,7 +247,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
                             <TableBody>
                                 {mealDetailsD.map((row) => (
                                     <StyledTableRow key={row._id}>
-                                        <IconButton aria-label="delete" className={classes.margin}>
+                                        <IconButton aria-label="delete" className={classes.margin} onClick={((e) => handleDeleteClick(e, row))}>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
                                         <StyledTableCell component="th" scope="row">
@@ -297,7 +297,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
                             <TableBody>
                                 {mealDetailsS.map((row) => (
                                     <StyledTableRow key={row._id}>
-                                        <IconButton aria-label="delete" className={classes.margin}>
+                                        <IconButton aria-label="delete" className={classes.margin} onClick={((e) => handleDeleteClick(e, row))}>
                                             <DeleteIcon fontSize="small" />
                                         </IconButton>
                                         <StyledTableCell component="th" scope="row">

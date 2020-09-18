@@ -86,7 +86,7 @@ const FoodDiaryTable = ({ dayPlanResult, date }) => {
 
         return Promise.all(
             dayPlan.meal.breakfast.map(async (meal) => {
-                console.log('meal breakfast', meal);
+                // console.log('meal breakfast', meal);
                 const result = await getFoodDetailsAPI(meal.foodId)
                 // console.log('result breakfast', result);
                 //think about if there is no result
@@ -116,6 +116,9 @@ const FoodDiaryTable = ({ dayPlanResult, date }) => {
                 // console.log('result', result);
                 //think about if there is no result
                 return ({
+                    planId: dayPlan._id,
+                    mealId: meal._id,
+                    mealType:"lunch",
                     foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
@@ -138,6 +141,9 @@ const FoodDiaryTable = ({ dayPlanResult, date }) => {
                 // console.log('result', result);
                 //think about if there is no result
                 return ({
+                    planId: dayPlan._id,
+                    mealId: meal._id,
+                    mealType:"dinner",
                     foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
@@ -155,12 +161,15 @@ const FoodDiaryTable = ({ dayPlanResult, date }) => {
 
         return Promise.all(
             dayPlan.meal.snack.map(async (meal) => {
-                console.log('meal', meal);
-                console.log('dayplan', dayPlan._id);
+                // console.log('meal', meal);
+                // console.log('dayplan', dayPlan._id);
                 const result = await getFoodDetailsAPI(meal.foodId)
-                console.log('result snack', result);
+                // console.log('result snack', result);
                 //think about if there is no result
                 return ({
+                    planId: dayPlan._id,
+                    mealId: meal._id,
+                    mealType:"snack",
                     planId: dayPlan._id,
                     foodId: result[0].food_id,
                     name: result[0].food_name,
@@ -182,8 +191,6 @@ const FoodDiaryTable = ({ dayPlanResult, date }) => {
             mealDetailsL={mealDetailsL} 
             mealDetailsD={mealDetailsD} 
             mealDetailsS={mealDetailsS} 
-            dayPlanResult={dayPlanResult}
-            date={date}
         />
     )
 }
