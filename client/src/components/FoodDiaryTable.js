@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 //having {dayPlanResult} with curley bracket is the shortcut of having props in prantesis & have // const {dayPlanResult} = props;
 //if we have more props coming to this function we can separate them with comma
-const FoodDiaryTable = ({ dayPlanResult }) => {
+const FoodDiaryTable = ({ dayPlanResult, date }) => {
     // console.log('fooddairytable props', dayPlanResult);
 
     //shortcut of having props.dayPlanResult is to have props at the top and have below variable
@@ -86,11 +86,14 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
 
         return Promise.all(
             dayPlan.meal.breakfast.map(async (meal) => {
-                // console.log('meal', meal);
+                console.log('meal breakfast', meal);
                 const result = await getFoodDetailsAPI(meal.foodId)
                 // console.log('result breakfast', result);
                 //think about if there is no result
                 return ({
+                    planId: dayPlan._id,
+                    mealId: meal._id,
+                    mealType:"breakfast",
                     foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
@@ -152,11 +155,13 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
 
         return Promise.all(
             dayPlan.meal.snack.map(async (meal) => {
-                // console.log('meal', meal.servingSize);
+                console.log('meal', meal);
+                console.log('dayplan', dayPlan._id);
                 const result = await getFoodDetailsAPI(meal.foodId)
-                // console.log('result', result);
+                console.log('result snack', result);
                 //think about if there is no result
                 return ({
+                    planId: dayPlan._id,
                     foodId: result[0].food_id,
                     name: result[0].food_name,
                     servingSize: meal.servingSize,
@@ -177,6 +182,8 @@ const FoodDiaryTable = ({ dayPlanResult }) => {
             mealDetailsL={mealDetailsL} 
             mealDetailsD={mealDetailsD} 
             mealDetailsS={mealDetailsS} 
+            dayPlanResult={dayPlanResult}
+            date={date}
         />
     )
 }

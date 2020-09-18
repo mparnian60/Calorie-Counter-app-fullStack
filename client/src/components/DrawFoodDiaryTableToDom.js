@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS }) => {
+    
 
     const [addMealSearchModal, setAddMealSearchModal] = useState(false);
 
@@ -102,6 +103,17 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
     }
 
     const handleDeleteClick = (e, row) =>{
+        const foodDetails = {
+            planId: row.planId,
+            mealId: row.mealId,
+            mealType: row.mealType,
+            meal: {
+                foodId: row.foodId,
+                servingSize: row.servingSize
+            }
+        }
+
+        
         console.log('row',row);
     }
 

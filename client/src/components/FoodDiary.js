@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
 const FoodDiary = (props) => {
 
     const history = useHistory();
-    console.log('history', history);
+    // console.log('history', history);
     const params = useParams();
-    console.log('prams', params);
+    // console.log('prams', params);
     const changeISOformat = moment().format('YYYY-MM-DD');
     const [date, setDate] = useState(changeISOformat);
     const [error, setError] = useState(false);
@@ -109,7 +109,7 @@ const FoodDiary = (props) => {
                     }}
                 />
             </div>
-            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} />}
+            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} date={date}/>}
         </>
     )
 }
