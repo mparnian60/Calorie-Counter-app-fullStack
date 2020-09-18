@@ -48,6 +48,7 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date }) => {
 
 
     const handleFormSubmit = (e) => {
+        console.log('e', e)
         e.preventDefault();
 
         //Add chosen food into meal plan

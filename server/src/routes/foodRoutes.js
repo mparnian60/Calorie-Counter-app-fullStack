@@ -33,7 +33,6 @@ router.use((req, res, next) => {
 
   jwt.verify(token, privateKey, { algorithms: ["HS256"] }, (err, decoded) => {
     if (!err) {
-      console.log('decoded', decoded);
       req.user = decoded //store userinfo in requset object
       next();  //middleware complete, move to next endpoint
     } else {
@@ -204,31 +203,60 @@ router.get('/allDayPlan', async (req, res) => {
   }
 })
 
-//delete a food from a meal
-router.post('/deleteFood/:foodId', async (req, res) => {
 
-  const date = changeDateFormat(req.body.date);
-
-  try {
-    // find all plans under below userID
-    const findExistingPlan = await DayPlan.find({ userId: req.user.id, date: date })
-    console.log('existingPlan', findExistingPlan);
-    console.log('existingPlan', findExistingPlan[0].meal.dinner[0]._id);
-
-    const findOne = await DayPlan.findOne({ _id: req.params.foodId })
-    console.log('FineOne', findOne);
-
-
-    // find a meal with id in the URL and delete
-    // const updateExistingPlan = await DayPlan.update({findExistingPlan},
-    // { $pull: { meal: {dinner: {$elemMatch: {_id : req.params.foodId }}}}},{ multi: true });
-    // console.log('updatedPlan',updateExistingPlan);
-
-    res.status(200).send(findExistingPlan);
-  } catch (e) {
-    console.log(e);
-    res.status(400).send("Bad request");
+//delete meal 
+/*
+  Expects a day plan ID & Meal ID to perform delet
+  //meal type is used to select breakfast, lunch, dinner, snack as string
+  //meal object used for actual update
+  {
+    planId: "string",
+    mealId: "string",
+    mealType: "string",
+    meal: { foodId: number, servingSize: mumber }
   }
-})
+*/
+router.delete('/deleteFood', async (req, res) => {
+  const dayPlan = await DayPlan.findOne({ userId: req.user.id, _id: req.body.planId }); 
+
+  // console.log("dayPlan", dayPlan);
+
+  // if(!dayPlan) {
+  //   //early exit if dayplan isn't found
+  //   res.status(400).send("Bad request");
+  //   return;
+  // }
+  let meal = null; //initalise meal variable to assign in switch
+  //note: dayPlan.meal is a Mongoose document: https://mongoosejs.com/docs/documents.html#updating
+  //sub docs: https://mongoosejs.com/docs/subdocs.html
+  //Finding a sub document: https://mongoosejs.com/docs/subdocs.html#finding-a-subdocument  
+  switch (req.body.mealType) {
+    case "breakfast":
+      meal = dayPlan.meal.breakfast.id(req.body.mealId);
+      break;
+    case "lunch":
+      meal = dayPlan.meal.lunch.id(req.body.mealId);
+    break;
+    case "dinner":
+      meal = dayPlan.meal.dinner.id(req.body.mealId);
+      break;
+    case "snack":
+      meal = dayPlan.meal.snack.id(req.body.mealId);
+      break;
+    // default:
+    //   console.log('meal type not found');
+  }
+  //check if a valid meal was selected
+  if(meal) {
+    console.log('meal', meal)
+    //update the meal properties from the query
+    meal.foodId = req.body.meal.foodId;
+    meal.servingSize = req.body.meal.servingSize;
+    //save the parent document which commits the meal changes
+    await meal.remove();
+    await dayPlan.save();
+  }
+  res.json(dayPlan);
+});
 
 module.exports = router;

@@ -17,4 +17,4 @@ const schema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('dayPlan', schema);
+module.exports = mongoose.model('DayPlan', schema);
