@@ -23,6 +23,7 @@ if (isProduction){
     app.use(express.static('./public'));
 }
 
+
 //middleware
 app.use(express.json()); //parse JSON body
 
@@ -33,10 +34,9 @@ app.use("/api/foodDetails", foodDetailsRouter);
 
 if (isProduction){
     app.get('/*', (req,res) =>{
-        res.sendFile("./public/index.html", {root:'./'})
+        res.sendFile('./public/index.html',{root: './'});
     })
 }
-
 
 
 app.listen(process.env.PORT || 9000, () => {
