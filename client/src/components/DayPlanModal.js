@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { splitFoodDesc, splitByColon } from '../utils/splitFoodDesc';
-import { createDayPlanAPI } from '../api/dayPlanAPI';
+import { createDayPlanAPI } from '../api/DayPlanAPI';
 import { createFoodDetailsAPI } from '../api/foodDetailsAPI'
 import DayPlanForm from './DayPlanForm';
 import { splitfunction } from '../utils/splitFoodDesc';
