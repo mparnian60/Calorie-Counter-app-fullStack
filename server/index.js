@@ -34,7 +34,7 @@ app.use("/api/foodDetails", foodDetailsRouter);
 
 if (isProduction){
     app.get('/*', (req,res) =>{
-        res.sendFile('../client/public/index.html',{root: './'});
+        res.sendFile(path.join(__dirname, 'public', 'index.html')
     })
 }
 
