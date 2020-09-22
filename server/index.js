@@ -1,14 +1,14 @@
 require('dotenv').config();
-const express = require('../node_modules/express');
-require('../mongo');
+const express = require('express');
+require('./mongo');
 const app = express();
 const port = 9000;
 
 
 //routers
-const userRouter = require('./routes/userRoutes');
-const foodRouter = require('./routes/foodRoutes');
-const foodDetailsRouter = require('./routes/foodDetailsRoutes');
+const userRouter = require('./src/routes/userRoutes');
+const foodRouter = require('./src/routes/foodRoutes');
+const foodDetailsRouter = require('./src/routes/foodDetailsRoutes');
 
 //Heroku environment variable
 //NODE_ENV=production
@@ -20,7 +20,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 //middleware to make a static file for Heroku deployement
 if (isProduction){
     console.log("Express app running in production")
-    app.use(express.static('../public'));
+    app.use(express.static('./public'));
 }
 
 //middleware
