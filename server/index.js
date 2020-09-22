@@ -33,7 +33,7 @@ app.use("/api/foodDetails", foodDetailsRouter);
 
 if (isProduction){
     app.get('/*', (req,res) =>{
-        res.sendFile(path.join(__dirname + '/../server/public/index.html')
+        res.sendFile("./public/index.html", {root:'./'})
     })
 }
 
@@ -41,5 +41,3 @@ if (isProduction){
 
 app.listen(process.env.PORT || 9000, () => {
     console.log(`FoodCount app listening at http://localhost:${port}`)})
-
-    server/public/index.html
