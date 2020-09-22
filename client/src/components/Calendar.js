@@ -6,7 +6,7 @@ import moment from 'moment';
 import '../index.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { getAllDayPlanAPI } from '../api/dayPlanAPI';
+import { getAllDayPlanAPI } from '../api/DayPlanAPI';
 import { result } from 'lodash';
 
 const localizer = momentLocalizer(moment);

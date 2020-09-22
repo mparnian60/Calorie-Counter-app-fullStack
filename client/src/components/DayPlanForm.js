@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Label, Form, FormGroup } from 'reactstrap';
 import moment from 'moment';
 
-import createDayPlanAPI from '../api/dayPlanAPI';
+import createDayPlanAPI from '../api/DayPlanAPI';
 
 const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
     console.log('fooddairy',date);
