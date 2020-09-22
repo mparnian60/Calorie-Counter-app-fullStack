@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DrawFoodResultToDom = ({foodDetails, key, date}) => {
+const DrawFoodResultToDom = ({foodDetails, key, date, getDayPlanAPI, setOpen}) => {
     const classes = useStyles();
 
     const [showModal, setShowModal] = useState(false);
@@ -46,7 +46,7 @@ const DrawFoodResultToDom = ({foodDetails, key, date}) => {
                     </ListItem>
                 </List>
                 <Divider />
-            <DayPlanModal foodDetails={foodDetails} showModal={showModal} setShowModal={setShowModal} date={date}/>
+            <DayPlanModal foodDetails={foodDetails} showModal={showModal} setShowModal={setShowModal} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
         </div>
     );
 };

@@ -33,7 +33,7 @@ import Search from './Search';
     },
   }));
 
-const SearchModal = ({showModal, hideModal, date}) =>{
+const SearchModal = ({showModal, hideModal, date, getDayPlanAPI}) =>{
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     // const [modalStyle] = React.useState(getModalStyle);
@@ -65,7 +65,7 @@ const SearchModal = ({showModal, hideModal, date}) =>{
             aria-describedby="simple-modal-description"
           >
               <div className={classes.paper}>
-              <Search date={date}/>
+              <Search date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
               </div>
           </Modal>
       );

@@ -42,6 +42,7 @@ export async function getDayPlanAPI(date) {
         }
     });
     const data = await result.json();
+    console.log('getdayplanapi date', data);
 
     return data;
 }

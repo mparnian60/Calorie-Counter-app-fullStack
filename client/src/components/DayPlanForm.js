@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Label, Form, FormGroup } from 'reactstrap';
+import moment from 'moment';
+
 import createDayPlanAPI from '../api/dayPlanAPI';
 
 const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
-    // console.log('dayplanform props',props);
+    console.log('fooddairy',date);
 
     const [mealAndServingSize, setMealAndServingsize] = useState({
         breakfast: 0,
@@ -11,12 +13,16 @@ const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
         dinner: 0,
         snack: 0
     });
-    const [newdate, setDate] = useState(date)
+
+    const todayDate = moment().format("YYYY-MM-D");
+
+    const [currentDate, setCurrentDate] = useState(date ? date : todayDate);
+    // console.log('date', currentDate);
 
 
     const handleDate = e => {
         let value = e.currentTarget.value;
-        setDate(value);
+        setCurrentDate(value);
     }
 
     //for having couple of variable in one state, we need to use the spread function (...) to make a new object
@@ -31,7 +37,7 @@ const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
     //onChangeDayPlanFormValue get called before change state get captured
     useEffect(() => {
         onChangeDayPlanFormValue({
-            date: newdate,
+            date: currentDate,
             meal: mealAndServingSize
         })
     })
@@ -64,7 +70,7 @@ const DayPlanForm = ({foodId, onChangeDayPlanFormValue, date}) => {
 
                 <FormGroup>
                 <Label for="backdrop">Date</Label>{' '}
-                <Input className="modalInput" type="date" name="date" id="backdrop" value={newdate} onChange={handleDate}>
+                <Input className="modalInput" type="date" name="date" id="backdrop" value={currentDate} onChange={handleDate}>
                 </Input>
                 </FormGroup>
 

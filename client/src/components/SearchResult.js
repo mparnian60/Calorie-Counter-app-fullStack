@@ -1,7 +1,7 @@
 import React from "react";
 import DrawFoodResultToDom from "./DrawFoodResultToDom";
 
-const SearchResult = ({foodResult, date}) => {
+const SearchResult = ({foodResult, date, getDayPlanAPI, setOpen}) => {
 
     // console.log("searchresult props",props);
 
@@ -11,7 +11,7 @@ const SearchResult = ({foodResult, date}) => {
                 {foodResult.map((food) => {
                     // console.log('food', food);
                     return (
-                        <DrawFoodResultToDom foodDetails={food} key={food.food_id} date={date}/>
+                        <DrawFoodResultToDom foodDetails={food} key={food.food_id} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
                     )
                 })}
             </div>

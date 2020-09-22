@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {deletfoodAPI} from '../api/dayPlanAPI'
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import { flowRight } from 'lodash';
 import SearchModal from './SearchModal';
+
 
 
 
@@ -57,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS }) => {
+const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS, date, getDayPlanAPI }) => {
     
 
     const [addMealSearchModal, setAddMealSearchModal] = useState(false);
@@ -112,12 +115,16 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
                 servingSize: row.servingSize
             }
         }
-
-
+        console.log('fooddetails', foodDetails);
         console.log('row',row);
+
+        deletfoodAPI(foodDetails)
+        .then(result => console.log('result', result));
+
     }
 
-    const handleAddMeal = () =>{
+    const handleAddMeal = (e) =>{
+        e.preventDefault();
         setAddMealSearchModal(true);
     }
 
@@ -128,7 +135,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
 
     return (
         <React.Fragment>
-            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal}/>
+            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date} getDayPlanAPI={getDayPlanAPI}/>
             <Box ml={15} mr={15}>
                 {mealDetailsB.length > 0 &&
                     <TableContainer component={Paper}>

@@ -1,0 +1,21 @@
+echo " === STARTING BUILD PROCESS ==="
+
+echo "=== BUILDING FRONTEND BUILD ==="
+cd client
+npm install #install frontend dependencies
+npm run build
+
+echo "=== COPY BUILD INTO BACKEND PUBLIC ==="
+cd ../
+mkdir -p ./server/public
+cp -r ./client/build/* ./server/public
+
+echo "=== BUILDING BACKEND ==="
+cd server
+npm install #install backend dependencies
+
+echo "=== BUILDING SCRIPT COMPLETE ==="
+
+
+
+

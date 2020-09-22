@@ -44,7 +44,7 @@ export function Login(props) {
             username: username,
             password: password
         }).then((token) => {
-            // console.log(token);
+            console.log(token);
             const decoded = jwt(token);
             // console.log(decoded);
 

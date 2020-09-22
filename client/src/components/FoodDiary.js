@@ -84,7 +84,7 @@ const FoodDiary = (props) => {
 
         return (
             <>
-            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date} />
+            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date}/>
             <Alert severity="error">There is no Food Diary for the chosen date, please choose another date</Alert>
             <div className={classes.root}>
                 <Button variant="contained" color="primary" onClick={handleAddClick}>Add Meal</Button>
@@ -109,7 +109,7 @@ const FoodDiary = (props) => {
                     }}
                 />
             </div>
-            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} date={date}/>}
+            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} date={date} getDayPlanAPI={getDayPlanAPI}/>}
         </>
     )
 }

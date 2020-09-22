@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     // }
 }));
 
-const Search = ({date}) => {
+const Search = ({date, getDayPlanAPI, setOpen}) => {
     const classes = useStyles();
 
     const [searchItem, setSearchItem] = useState("");
@@ -82,7 +82,7 @@ const Search = ({date}) => {
                         <SearchIcon />
                     </IconButton>
                 </Paper>
-                <SearchResult foodResult={searchResult} date={date}/>
+                <SearchResult foodResult={searchResult} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
             </Form>
             {/* </div> */}
             </div>

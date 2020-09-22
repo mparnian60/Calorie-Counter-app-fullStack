@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
+import { useHistory } from "react-router-dom";
 import { splitFoodDesc, splitByColon } from '../utils/splitFoodDesc';
 import { createDayPlanAPI } from '../api/dayPlanAPI';
 import { createFoodDetailsAPI } from '../api/foodDetailsAPI'
@@ -16,8 +17,10 @@ let dayPlanFormValue = {
     }
 };
 
-const DayPlanModal = ({ foodDetails, showModal, setShowModal, date }) => {
+const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAPI, setOpen }) => {
+    console.log('dayplanmodaldate', date);
 
+    let history = useHistory();
 
     //split food desc and capture food deatils value
     const splitArray = splitfunction(foodDetails.food_description);
@@ -65,6 +68,9 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date }) => {
         }).then(() => {
             console.log('food added');
             toggle();
+            // setOpen(false);
+            // history.push(`/foodDiary/2020-09-11`)
+            getDayPlanAPI('2020-09-11');
         }).catch(e => {
             console.log(e);
         });
@@ -102,7 +108,7 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date }) => {
                     
                 </ModalHeader>
                 <ModalBody>
-                    <DayPlanForm foodId={foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} date={date} />
+                    <DayPlanForm foodId={foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} date={date}/>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={handleFormSubmit}>Save</Button>{' '}
