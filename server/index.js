@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 require('./mongo');
 const app = express();
+const path = require('path');
 const port = 9000;
 
 
@@ -38,6 +39,10 @@ if (isProduction){
     })
 }
 
+console.log(path.join(__dirname, 'public', 'index.html'));
+
 
 app.listen(process.env.PORT || 9000, () => {
-    console.log(`FoodCount app listening at http://localhost:${port}`)})
+    console.log(`FoodCount app listening at http://localhost:${port}`)
+    console.log(path.join(__dirname, 'public', 'index.html'));
+})
