@@ -1,3 +1,5 @@
+import {updateHeaderOptions} from './updateHeaderOptions'
+
 export async function loginAPI(userDeatils) {
     const result = await fetch('/user/login', {
         method: 'POST',

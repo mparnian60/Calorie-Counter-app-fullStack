@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Input, Label, Form, FormGroup } from 'reactstrap';
 import moment from 'moment';
-import {useFoodDiaryContext} from './context/FoodDiaryContext'
+import {useAppContext} from './context/AppContext'
 
 import createDayPlanAPI from '../api/DayPlanAPI';
 
@@ -15,10 +15,10 @@ const DayPlanForm = ({foodId, onChangeDayPlanFormValue}) => {
         snack: 0
     });
 
-    const foodDiaryContext = useFoodDiaryContext();
-    const{date} = foodDiaryContext //this is shortcut for const date = searchContext.date
+    const appContext = useAppContext();
+    const{date} = appContext //this is shortcut for const date = searchContext.date
 
-    console.log('date feom dayplan form', date);
+    // console.log('date feom dayplan form', date);
 
 
     const todayDate = moment().format("YYYY-MM-D");

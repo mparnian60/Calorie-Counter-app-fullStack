@@ -6,6 +6,7 @@ import { createDayPlanAPI } from '../api/DayPlanAPI';
 import { createFoodDetailsAPI } from '../api/foodDetailsAPI'
 import DayPlanForm from './DayPlanForm';
 import { splitfunction } from '../utils/splitFoodDesc';
+import {useAppContext} from './context/AppContext'
 
 let dayPlanFormValue = {
     date: "",
@@ -17,11 +18,11 @@ let dayPlanFormValue = {
     }
 };
 
-const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAPI, setOpen }) => {
+const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, setOpen }) => {
     // console.log('dayplanmodaldate', date);
 
-    // const searchContext = useContext(SearchContext);
-    // const {setOpenSearchModal} = searchContext
+    const appContext = useAppContext();
+    const{date,setDate,setAddMealSearchModal} = appContext 
 
     let history = useHistory();
 
@@ -54,7 +55,7 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAP
 
 
     const handleFormSubmit = (e) => {
-        console.log('e', e)
+        // console.log('e', e)
         e.preventDefault();
 
         //Add chosen food into meal plan
@@ -71,9 +72,11 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAP
         }).then(() => {
             console.log('food added');
             toggle();
-            // setOpenSearchModal(false);
+            setAddMealSearchModal(false);
+            console.log("dayplan data date", dayPlanFormValue.date)
+            setDate(dayPlanFormValue.date);
             // history.push(`/foodDiary/2020-09-11`)
-            // getDayPlanAPI('2020-09-11');
+            // getDayPlanAPI(dayPlanFormValue.date);
         }).catch(e => {
             console.log(e);
         });

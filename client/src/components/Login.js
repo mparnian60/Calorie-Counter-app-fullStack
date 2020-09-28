@@ -77,7 +77,10 @@ export function Login(props) {
         }).then((token) => {
             console.log(token);
             const decoded = jwt(token);
-            // console.log(decoded);
+            console.log(decoded);
+
+            const expiaryDate = new Date(decoded.exp*1000);
+            console.log('expiary date', expiaryDate)
 
             //save token in local storage
             localStorage.setItem('token', token);

@@ -46,7 +46,6 @@ const Search = ({date, getDayPlanAPI, setOpen}) => {
     const [searchItem, setSearchItem] = useState("");
     const [searchResult, setSearchResults] = useState([]);
 
-    console.log('search provider', date);
 
 
     const handleSearchEntry = (e) => {

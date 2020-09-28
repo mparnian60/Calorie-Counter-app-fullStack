@@ -1,3 +1,5 @@
+import {updateHeaderOptions} from './updateHeaderOptions'
+
 //Create new foodDetails
 export async function createFoodDetailsAPI(foodDescription) {
     
@@ -9,6 +11,9 @@ export async function createFoodDetailsAPI(foodDescription) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
 
     return data;

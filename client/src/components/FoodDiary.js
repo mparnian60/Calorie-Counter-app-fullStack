@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 
 import FoodDiaryTable from './FoodDiaryTable';
 import SearchModal from './SearchModal';
-import {useFoodDiaryContext} from './context/FoodDiaryContext'
+import {useAppContext} from './context/AppContext'
 
 
 
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FoodDiary = (props) => {
     
-    const foodDiaryContext = useFoodDiaryContext();
-    const{date, setDate, addMealSearchModal, setAddMealSearchModal} = foodDiaryContext
+    const appContext = useAppContext();
+    const{date, setDate, addMealSearchModal, setAddMealSearchModal} = appContext
 
     const history = useHistory();
     // console.log('history', history);
@@ -54,7 +54,7 @@ const FoodDiary = (props) => {
         let value = e.target.value;
         setDate(value);
         setDayPlanResult([]);
-        console.log('date', value);
+        console.log('food diary date', value);
     }
 
 
@@ -65,9 +65,9 @@ const FoodDiary = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log('date before', date);
+        // console.log('date before', date);
         if (date) {
-            console.log('date after', date);
+            // console.log('date after', date);
             getDayPlanAPI(date).then((result) => {
                 // console.log('result', result);
                 setDayPlanResult(result);

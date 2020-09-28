@@ -2,17 +2,17 @@ import React from 'react';
 import './App.css';
 // import { Login } from './components/login';
 import { Nav } from './components/Nav';
-import { FoodDiaryProvider } from './components/context/FoodDiaryContext'
+import { AppProvider } from './components/context/AppContext'
 
 function App() {
   return (
     <>
-      <FoodDiaryProvider>
+      <AppProvider>
         <div className="App">
           {/* <Login /> */}
           <Nav />
         </div>
-      </FoodDiaryProvider>
+      </AppProvider>
     </>
   );
 }

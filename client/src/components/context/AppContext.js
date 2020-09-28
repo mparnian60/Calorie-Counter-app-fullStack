@@ -1,8 +1,8 @@
 import React, { useState, createContext, useContext } from 'react';
 import moment from 'moment';
 
-const FoodDiaryContext = createContext();
-const FoodDiaryProvider = (props) =>{
+const AppContext = createContext();
+const AppProvider = (props) =>{
 
 
     const [addMealSearchModal, setAddMealSearchModal] = useState(false);
@@ -11,17 +11,17 @@ const FoodDiaryProvider = (props) =>{
     const [date, setDate] = useState(changeISOformat);
 
     return (
-        <FoodDiaryContext.Provider value={{addMealSearchModal,setAddMealSearchModal, date, setDate}}>
+        <AppContext.Provider value={{addMealSearchModal,setAddMealSearchModal, date, setDate}}>
             {props.children}
-        </FoodDiaryContext.Provider>
+        </AppContext.Provider>
     )
 }
 
-const useFoodDiaryContext = () =>{
-    const context = useContext(FoodDiaryContext)
+const useAppContext = () =>{
+    const context = useContext(AppContext)
     return context
 }
 
-export {FoodDiaryProvider, useFoodDiaryContext}
+export {AppProvider, useAppContext}
 
 
