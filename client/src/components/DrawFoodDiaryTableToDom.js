@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import { flowRight } from 'lodash';
 import SearchModal from './SearchModal';
+import {useFoodDiaryContext} from './context/FoodDiaryContext'
 
 
 
@@ -60,10 +61,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS, date, getDayPlanAPI }) => {
+const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS, getDayPlanAPI }) => {
     
 
-    const [addMealSearchModal, setAddMealSearchModal] = useState(false);
+    const foodDiaryContext = useFoodDiaryContext();
+    const {addMealSearchModal,setAddMealSearchModal} = foodDiaryContext
+    
 
     const calTotalCalori = (mealDetails) => {
         let total = 0;
@@ -135,7 +138,7 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
 
     return (
         <React.Fragment>
-            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date} getDayPlanAPI={getDayPlanAPI}/>
+            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} getDayPlanAPI={getDayPlanAPI}/>
             <Box ml={15} mr={15}>
                 {mealDetailsB.length > 0 &&
                     <TableContainer component={Paper}>

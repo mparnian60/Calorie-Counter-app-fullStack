@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 //Import for material UI
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 
 import FoodDiaryTable from './FoodDiaryTable';
 import SearchModal from './SearchModal';
+import {useFoodDiaryContext} from './context/FoodDiaryContext'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,17 +32,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const FoodDiary = (props) => {
+    
+    const foodDiaryContext = useFoodDiaryContext();
+    const{date, setDate, addMealSearchModal, setAddMealSearchModal} = foodDiaryContext
 
     const history = useHistory();
     // console.log('history', history);
     const params = useParams();
     // console.log('prams', params);
-    const changeISOformat = moment().format('YYYY-MM-DD');
-    const [date, setDate] = useState(changeISOformat);
+    // const changeISOformat = moment().format('YYYY-MM-DD');
+    // const [date, setDate] = useState(changeISOformat);
     const [error, setError] = useState(false);
     const [dayPlanResult, setDayPlanResult] = useState([]);
-    const [addMealSearchModal, setAddMealSearchModal] = useState(false);
 
     const classes = useStyles();
 
@@ -109,10 +114,11 @@ const FoodDiary = (props) => {
                     }}
                 />
             </div>
-            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} date={date} getDayPlanAPI={getDayPlanAPI}/>}
+            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} getDayPlanAPI={getDayPlanAPI}/>}
         </>
     )
 }
 
 export default FoodDiary;
+
 

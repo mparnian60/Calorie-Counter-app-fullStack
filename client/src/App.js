@@ -1,14 +1,19 @@
 import React from 'react';
 import './App.css';
 // import { Login } from './components/login';
-import {Nav} from './components/Nav';
+import { Nav } from './components/Nav';
+import { FoodDiaryProvider } from './components/context/FoodDiaryContext'
 
 function App() {
   return (
-    <div className="App">
-      {/* <Login /> */}
-      <Nav />
-    </div>
+    <>
+      <FoodDiaryProvider>
+        <div className="App">
+          {/* <Login /> */}
+          <Nav />
+        </div>
+      </FoodDiaryProvider>
+    </>
   );
 }
 

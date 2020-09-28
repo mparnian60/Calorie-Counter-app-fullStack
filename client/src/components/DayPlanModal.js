@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import { useHistory } from "react-router-dom";
 import { splitFoodDesc, splitByColon } from '../utils/splitFoodDesc';
@@ -18,7 +18,10 @@ let dayPlanFormValue = {
 };
 
 const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAPI, setOpen }) => {
-    console.log('dayplanmodaldate', date);
+    // console.log('dayplanmodaldate', date);
+
+    // const searchContext = useContext(SearchContext);
+    // const {setOpenSearchModal} = searchContext
 
     let history = useHistory();
 
@@ -68,9 +71,9 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, date, getDayPlanAP
         }).then(() => {
             console.log('food added');
             toggle();
-            // setOpen(false);
+            // setOpenSearchModal(false);
             // history.push(`/foodDiary/2020-09-11`)
-            getDayPlanAPI('2020-09-11');
+            // getDayPlanAPI('2020-09-11');
         }).catch(e => {
             console.log(e);
         });

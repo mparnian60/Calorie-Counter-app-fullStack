@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import searchAPI from '../api/searchAPI';
 import SearchResult from './SearchResult';
@@ -45,6 +45,8 @@ const Search = ({date, getDayPlanAPI, setOpen}) => {
 
     const [searchItem, setSearchItem] = useState("");
     const [searchResult, setSearchResults] = useState([]);
+
+    console.log('search provider', date);
 
 
     const handleSearchEntry = (e) => {

@@ -44,7 +44,7 @@ router.post('/login', async (req, res) => {
             }));
 
         } else {
-            res.send('Enter valid username & password');
+            res.status(400).send('Enter valid  password');
         }
     } catch{
         res.status(400).send('Enter valid username & password');

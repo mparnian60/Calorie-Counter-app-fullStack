@@ -9,7 +9,10 @@ export async function loginAPI(userDeatils) {
     });
     const data = await result.headers.get('token');
 
-    return data;
+    console.log('result', result)
+    console.log('data', data)
+
+    return data;  
 }
 
 export async function signUpAPI(userDeatils) {
@@ -20,6 +23,7 @@ export async function signUpAPI(userDeatils) {
             'Content-Type': 'application/json',
         }
     });
+
     const data = await result.json();
 
     return data;

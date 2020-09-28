@@ -23,6 +23,7 @@ import ColoredDateCellWrapper from './Calendar'
 import MyCalendar from "./Calendar";
 import CustomizedTables from './Example'
 import Example from "./Example";
+import Chip from '@material-ui/core/Chip';
 
 
 
@@ -70,7 +71,7 @@ export function Nav() {
     window.localStorage.removeItem('userId');
     setLoggedIn(false);
 
-    history.push('/');
+    window.location.replace('/');
   }
 
   return (
@@ -91,7 +92,8 @@ export function Nav() {
               <Link to="/dietCalendar">
                 <Button className={classes.loginBtn} color="inherit">Diet Calendar</Button>
               </Link>
-              {loggedIn && <Link className={classes.push} to="/logout">
+              {loggedIn && <Chip className={classes.push} label={`Hi, ${window.localStorage.getItem('userName')}`} />}
+              {loggedIn && <Link to="/logout">
               <Button className={classes.loginBtn} color="inherit" onClick={handleLogout}>Logout</Button>
               </Link>}
               {!loggedIn && <Link className={classes.push} to="/signup">

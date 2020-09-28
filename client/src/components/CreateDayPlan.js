@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import createDayPlanAPI from '../api/dayPlanAPI';
+import createDayPlanAPI from '../api/DayPlanAPI';
 import FormCompleteMsg from './FormCompleteMsg'
 
 function CreateDayPlan() {

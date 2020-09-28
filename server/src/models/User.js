@@ -9,12 +9,19 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    startWeight:{
+    goalWeight:{
         type: Number,
     },
     currentWeight:{
         type: Number,
-    }
+    },
+    height:{
+        type: Number,
+    },
+    gender:{
+        type: String,
+    },
+
 })
 
 module.exports = mongoose.model('User', schema);

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Search from './Search';
@@ -33,7 +33,9 @@ import Search from './Search';
     },
   }));
 
-const SearchModal = ({showModal, hideModal, date, getDayPlanAPI}) =>{
+const SearchModal = ({showModal, hideModal, getDayPlanAPI}) =>{
+
+
     const classes = useStyles();
     // getModalStyle is not a pure function, we roll the style only on the first render
     // const [modalStyle] = React.useState(getModalStyle);
@@ -65,7 +67,7 @@ const SearchModal = ({showModal, hideModal, date, getDayPlanAPI}) =>{
             aria-describedby="simple-modal-description"
           >
               <div className={classes.paper}>
-              <Search date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
+              <Search getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
               </div>
           </Modal>
       );

@@ -42,5 +42,4 @@ if (isProduction){
 
 app.listen(process.env.PORT || 9000, () => {
     console.log(`FoodCount app listening at http://localhost:${port}`)
-    console.log(path.join(__dirname, 'public', 'index.html'));
 })
