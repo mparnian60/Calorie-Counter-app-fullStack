@@ -7,11 +7,14 @@ const AppProvider = (props) =>{
 
     const [addMealSearchModal, setAddMealSearchModal] = useState(false);
 
+    //that get used when user add new food with the same date whihc will trigger useeffect
+    const [reloadSameDateDayPlan, setReloadSameDateDayPlan] =useState (false); 
+
     const changeISOformat = moment().format('YYYY-MM-DD');
     const [date, setDate] = useState(changeISOformat);
 
     return (
-        <AppContext.Provider value={{addMealSearchModal,setAddMealSearchModal, date, setDate}}>
+        <AppContext.Provider value={{addMealSearchModal,setAddMealSearchModal, date, setDate, reloadSameDateDayPlan, setReloadSameDateDayPlan }}>
             {props.children}
         </AppContext.Provider>
     )

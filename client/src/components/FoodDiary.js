@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const FoodDiary = (props) => {
     
     const appContext = useAppContext();
-    const{date, setDate, addMealSearchModal, setAddMealSearchModal} = appContext
+    const{date, setDate, addMealSearchModal, setAddMealSearchModal, reloadSameDateDayPlan} = appContext
 
     const history = useHistory();
     // console.log('history', history);
@@ -66,8 +66,8 @@ const FoodDiary = (props) => {
 
     useEffect(() => {
         // console.log('date before', date);
-        if (date) {
-            // console.log('date after', date);
+        if (date || reloadSameDateDayPlan === true) {
+            console.log('food diary useeffect', date);
             getDayPlanAPI(date).then((result) => {
                 // console.log('result', result);
                 setDayPlanResult(result);
@@ -78,7 +78,7 @@ const FoodDiary = (props) => {
                 }
             })
         }
-    }, [date])
+    }, [date, reloadSameDateDayPlan])
 
     const handleAddClick = () =>{
         setAddMealSearchModal(true);

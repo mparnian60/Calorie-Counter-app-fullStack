@@ -6,7 +6,9 @@ import { createDayPlanAPI } from '../api/DayPlanAPI';
 import { createFoodDetailsAPI } from '../api/foodDetailsAPI'
 import DayPlanForm from './DayPlanForm';
 import { splitfunction } from '../utils/splitFoodDesc';
-import {useAppContext} from './context/AppContext'
+import { useAppContext } from './context/AppContext';
+
+import MuiAlert from '@material-ui/lab/Alert';
 
 let dayPlanFormValue = {
     date: "",
@@ -22,7 +24,7 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
     // console.log('dayplanmodaldate', date);
 
     const appContext = useAppContext();
-    const{date,setDate,setAddMealSearchModal} = appContext 
+    const { date, setDate, setAddMealSearchModal, setReloadSameDateDayPlan } = appContext
 
     let history = useHistory();
 
@@ -31,6 +33,9 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
     // console.log('splitArray', splitArray);
     //take kcal out of calories
     const calories = splitArray[2].toString().split('kcal');
+
+
+
 
 
     const toggle = () => setShowModal(!showModal);
@@ -52,45 +57,57 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
         dayPlanData.meal.snack > 0 && setSnackFoodId(foodDetails.food_id);
     }
 
-
+    //handle Errors
+    const [error, setError] = useState(false);
+    const closeError = () => {
+        setError(false)
+        history.push('/login');
+    }
 
     const handleFormSubmit = (e) => {
         // console.log('e', e)
         e.preventDefault();
 
-        //Add chosen food into meal plan
-        createDayPlanAPI({
-            userId: localStorage.getItem('userId'),
-            date: dayPlanFormValue.date,
-            meal: {
-                breakfast: [{ foodId: breakfastFoodId, servingSize: dayPlanFormValue.meal.breakfast }],
-                lunch: [{ foodId: lunchFoodId, servingSize: dayPlanFormValue.meal.lunch }],
-                dinner: [{ foodId: dinnerFoodId, servingSize: dayPlanFormValue.meal.dinner }],
-                snack: [{ foodId: snackFoodId, servingSize: dayPlanFormValue.meal.snack }]
-            }
+        if (!window.localStorage.token) {
+            setError(true);
+            console.log('login first')
+        } else {
+            //Add chosen food into meal plan
+            createDayPlanAPI({
+                userId: localStorage.getItem('userId'),
+                date: dayPlanFormValue.date,
+                meal: {
+                    breakfast: [{ foodId: breakfastFoodId, servingSize: dayPlanFormValue.meal.breakfast }],
+                    lunch: [{ foodId: lunchFoodId, servingSize: dayPlanFormValue.meal.lunch }],
+                    dinner: [{ foodId: dinnerFoodId, servingSize: dayPlanFormValue.meal.dinner }],
+                    snack: [{ foodId: snackFoodId, servingSize: dayPlanFormValue.meal.snack }]
+                }
 
-        }).then(() => {
-            console.log('food added');
-            toggle();
-            setAddMealSearchModal(false);
-            console.log("dayplan data date", dayPlanFormValue.date)
-            setDate(dayPlanFormValue.date);
-            // history.push(`/foodDiary/2020-09-11`)
-            // getDayPlanAPI(dayPlanFormValue.date);
-        }).catch(e => {
-            console.log(e);
-        });
+            }).then((result) => {
+                console.log('food added');
+                toggle();
+                setAddMealSearchModal(false);
+                console.log("dayplan data date", dayPlanFormValue.date);
+                if(dayPlanFormValue.date === date){
+                    setReloadSameDateDayPlan(true)
+                }
+                setDate(dayPlanFormValue.date);
 
-        //add chosen food to food details
-        createFoodDetailsAPI({
-            food_id: foodDetails.food_id,
-            food_name: foodDetails.food_name,
-            food_type: foodDetails.food_type,
-            calories: calories[0],
-            fat: splitArray[4][0],
-            carbs: splitArray[6][0],
-            protein: splitArray[8][0]
-        })
+            }).catch(e => {
+                console.log("dayplan modal error", e);
+            });
+
+            //add chosen food to food details
+            createFoodDetailsAPI({
+                food_id: foodDetails.food_id,
+                food_name: foodDetails.food_name,
+                food_type: foodDetails.food_type,
+                calories: calories[0],
+                fat: splitArray[4][0],
+                carbs: splitArray[6][0],
+                protein: splitArray[8][0]
+            })
+        }
     }
 
 
@@ -99,6 +116,7 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
     return (
         <Form>
             <Modal isOpen={showModal} toggle={toggle} style={{ zIndex: 99 }}>
+            {error && <MuiAlert onClose={closeError} severity="error">Please login</MuiAlert>}
                 <ModalHeader toggle={toggle}>
                     <h3>Nutrition Facts</h3>
                     {foodDetails.food_name}
@@ -106,15 +124,15 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
                 <ModalHeader>
                     <h5>Food Description per 100g: </h5>
                     <h6>Food Type: {foodDetails.food_type}</h6>
-                        {splitFoodDesc(foodDetails.food_description).map((details) => {
+                    {splitFoodDesc(foodDetails.food_description).map((details) => {
                         return (
                             <h6>{details}</h6>
                         )
                     })}
-                    
+
                 </ModalHeader>
                 <ModalBody>
-                    <DayPlanForm foodId={foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} date={date}/>
+                    <DayPlanForm foodId={foodDetails.food_id} onChangeDayPlanFormValue={onChangeDayPlanFormValue} date={date} />
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={handleFormSubmit}>Save</Button>{' '}

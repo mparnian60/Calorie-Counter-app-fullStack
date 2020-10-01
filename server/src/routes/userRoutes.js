@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
                 username: data.username
             }
 
-            jwt.sign(payload, privateKey, { expiresIn: "24h" }, ((err, token) => {
+            jwt.sign(payload, privateKey, { expiresIn: "4h" }, ((err, token) => {
                 console.log(token);
                 res.set('token', token);
                 res.send('token created')

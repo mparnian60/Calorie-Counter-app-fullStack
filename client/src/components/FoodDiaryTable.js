@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { getFoodDetailsAPI } from '../api/foodDetailsAPI'
+import React, { useEffect, useState } from 'react';
+import { getFoodDetailsAPI } from '../api/foodDetailsAPI';
+import { useAppContext } from './context/AppContext';
 import DrawFoodDiaryTableToDom from './DrawFoodDiaryTableToDom';
 
 
@@ -30,8 +24,8 @@ const useStyles = makeStyles({
 const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
     // console.log('fooddairytable props', dayPlanResult);
 
-    //shortcut of having props.dayPlanResult is to have props at the top and have below variable
-    // const {dayPlanResult} = props;
+    const appContext = useAppContext();
+    const{setReloadSameDateDayPlan} = appContext
 
     const classes = useStyles();
 
@@ -53,6 +47,8 @@ const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
                 // console.log('mealDetailsB', mealDetailsB);
                 if (mealDetailsB.length) {
                     setMealDetailsB(mealDetailsB)
+                }else{
+                    setMealDetailsB([]);
                 }
             });
        
@@ -60,6 +56,8 @@ const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
                 // console.log('mealDetailsL', mealDetails);
                 if (mealDetails.length) {
                     setMealDetailsL(mealDetails)
+                }else{
+                    setMealDetailsL([]);
                 }
             });
        
@@ -67,6 +65,8 @@ const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
                 // console.log('mealDetailsD', mealDetails);
                 if (mealDetails.length) {
                     setMealDetailsD(mealDetails)
+                }else{
+                    setMealDetailsD([]);
                 }
             });
     
@@ -74,9 +74,12 @@ const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
                 // console.log('mealDetailsS', mealDetails);
                 if (mealDetails.length) {
                     setMealDetailsS(mealDetails)
+                }else{
+                    setMealDetailsS([]);
                 }
             });
         }
+        setReloadSameDateDayPlan(false);
 
     }, [dayPlanResult])
 
