@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     // }
 }));
 
-const Search = ({ date, getDayPlanAPI, setOpen }) => {
+const Search = ({ getDayPlanAPI, setOpen }) => {
     const classes = useStyles();
 
     const [searchItem, setSearchItem] = useState("");
@@ -96,7 +96,7 @@ const Search = ({ date, getDayPlanAPI, setOpen }) => {
                             {circleProgress ? <div className={classes.circularProgress}><CircularProgress size={20} /></div> : <SearchIcon />}
                         </IconButton>
                     </Paper>
-                    <SearchResult foodResult={searchResult} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen} />
+                    <SearchResult foodResult={searchResult} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen} />
                 </Form>
                 {/* </div> */}
             </div>

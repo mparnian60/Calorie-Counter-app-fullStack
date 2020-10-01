@@ -57,22 +57,22 @@ const DayPlanForm = ({foodId, onChangeDayPlanFormValue}) => {
                 <Label for="backdrop" fdxzzx>Choose your meal by adding the Serving Size</Label>{' '}
                 <FormGroup>
                     <Label >Breakfast</Label>
-                    <Input  className="modalInput" type="number" name="breakfast" value={mealAndServingSize.breakfast} onChange={onChange} />
+                    <Input  className="modalInput" type="number" min="0" name="breakfast" value={mealAndServingSize.breakfast} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Lunch</Label>
-                <Input className="modalInput" type="number" name="lunch" value={mealAndServingSize.lunch} onChange={onChange} />
+                <Input className="modalInput" type="number" min="0" name="lunch" value={mealAndServingSize.lunch} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Dinner</Label>
-                <Input className="modalInput" type="number" name="dinner" value={mealAndServingSize.dinner} onChange={onChange} />
+                <Input className="modalInput" type="number" min="0" name="dinner" value={mealAndServingSize.dinner} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>
                 <Label >Snack/Other</Label>
-                <Input className="modalInput" type="number" name="snack" value={mealAndServingSize.snack} onChange={onChange} />
+                <Input className="modalInput" type="number" min="0" name="snack" value={mealAndServingSize.snack} onChange={onChange} />
                 </FormGroup>
 
                 <FormGroup>

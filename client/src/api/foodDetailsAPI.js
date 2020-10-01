@@ -28,6 +28,9 @@ export async function getFoodDetailsAPI(foodId) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
     // console.log('getFoodDetailsAPI data', data);
 

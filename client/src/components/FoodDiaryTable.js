@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 
 //having {dayPlanResult} with curley bracket is the shortcut of having props in prantesis & have // const {dayPlanResult} = props;
 //if we have more props coming to this function we can separate them with comma
-const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
+const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI, renderError, setDayPlanResult }) => {
     // console.log('fooddairytable props', dayPlanResult);
 
     const appContext = useAppContext();
@@ -195,6 +195,8 @@ const FoodDiaryTable = ({ dayPlanResult, getDayPlanAPI }) => {
             mealDetailsD={mealDetailsD} 
             mealDetailsS={mealDetailsS} 
             getDayPlanAPI={getDayPlanAPI}
+            renderError={renderError}
+            setDayPlanResult = {setDayPlanResult}
         />
     )
 }

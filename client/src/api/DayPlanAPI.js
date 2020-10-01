@@ -1,3 +1,5 @@
+import {updateHeaderOptions} from './updateHeaderOptions'
+
 //Create new dayplan
 export async function createDayPlanAPI(food) {
     
@@ -9,6 +11,9 @@ export async function createDayPlanAPI(food) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
 
     return data;
@@ -25,6 +30,9 @@ export async function upadteDayPlanAPI(food) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
 
     return data;
@@ -41,6 +49,9 @@ export async function getDayPlanAPI(date) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
     // console.log('getdayplanapi date', data);
 
@@ -56,6 +67,9 @@ export async function getAllDayPlanAPI(userId) {
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+
     const data = await result.json();
 
     return data;
@@ -71,6 +85,9 @@ export async function deletfoodAPI(foodDetails){
             token: window.localStorage.getItem("token"),
         }
     });
+
+    updateHeaderOptions(window.localStorage.getItem("token"));
+    
     const data = await result.json();
 
     return data;

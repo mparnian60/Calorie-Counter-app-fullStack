@@ -15,7 +15,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import { flowRight } from 'lodash';
 import SearchModal from './SearchModal';
-import {useAppContext} from './context/AppContext'
+import {useAppContext} from './context/AppContext';
+import AlertModal from '../utils/AlertModal'
+import Alert from '@material-ui/lab/Alert';
 
 
 
@@ -44,9 +46,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
     },
     table: {
-        minWidth: 550,
+        minWidth: 150,
         margin: 'auto',
-        // maxWidth: 800,
+        // maxWidth: 1000,
         // marginTop: 10,
         // marginLeft: 20,
         // marginBottom: 10,
@@ -61,11 +63,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS, getDayPlanAPI }) => {
+const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mealDetailsS, getDayPlanAPI, setDayPlanResult }) => {
     
 
     const appContext = useAppContext();
-    const {addMealSearchModal,setAddMealSearchModal} = appContext
+    const {date, setDate, addMealSearchModal, setAddMealSearchModal, setReloadSameDateDayPlan} = appContext
+
+    const [showModal, setShowModal] = useState(false);
+    const [deletAlert, setDeleteAlert] = useState(false);
     
 
     const calTotalCalori = (mealDetails) => {
@@ -76,6 +81,17 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
             })
         }
         return total;
+    }
+
+    const calTotalCaloriePerDay = () =>{
+        const total = (calTotalCalori(mealDetailsB) 
+        + calTotalCalori(mealDetailsL) 
+        + calTotalCalori(mealDetailsD) 
+        +calTotalCalori(mealDetailsS)).toFixed(0)
+
+        return total;
+
+        console.log('total calorie per day', total);
     }
 
     const calTotalFat = (mealDetails) => {
@@ -108,7 +124,16 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
         return total;
     }
 
-    const handleDeleteClick = (e, row) =>{
+    const renderAlert = () =>{
+        return(
+            // <AlertModal />
+            <Alert onClose={() => {}}>This is a success alert — check it out!</Alert>
+        )
+    }
+
+    const handleDeleteClick = async (e, row) =>{
+        setDeleteAlert(true);
+        setShowModal(true);
         const foodDetails = {
             planId: row.planId,
             mealId: row.mealId,
@@ -118,13 +143,19 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
                 servingSize: row.servingSize
             }
         }
-        console.log('fooddetails', foodDetails);
-        console.log('row',row);
+        // console.log('fooddetails', foodDetails);
+        // console.log('row',row);
 
-        deletfoodAPI(foodDetails)
-        .then(result => console.log('result', result));
+        await deletfoodAPI(foodDetails)
+        // .then(result => console.log('deletfoodAPI result', result));
 
+        setReloadSameDateDayPlan(true);
     }
+
+      // check if ther is no food left, render error from foodDiary component
+   
+
+   
 
     const handleAddMeal = (e) =>{
         e.preventDefault();
@@ -138,8 +169,8 @@ const DrawFoodDiaryTableToDom = ({ mealDetailsB, mealDetailsL, mealDetailsD, mea
 
     return (
         <React.Fragment>
-            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} getDayPlanAPI={getDayPlanAPI}/>
-            <Box ml={15} mr={15}>
+            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} getDayPlanAPI={getDayPlanAPI} />
+            <Box ml={40} mr={40}>
                 {mealDetailsB.length > 0 &&
                     <TableContainer component={Paper}>
                         <Table className={classes.table} aria-label="customized table">

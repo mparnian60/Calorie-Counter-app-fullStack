@@ -46,7 +46,7 @@ const DrawFoodResultToDom = ({foodDetails, key, date, getDayPlanAPI, setOpen}) =
                     </ListItem>
                 </List>
                 <Divider />
-            <DayPlanModal foodDetails={foodDetails} showModal={showModal} setShowModal={setShowModal} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
+            <DayPlanModal foodDetails={foodDetails} showModal={showModal} setShowModal={setShowModal} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
         </div>
     );
 };

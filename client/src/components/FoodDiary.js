@@ -1,17 +1,23 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 //Import for material UI
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import { getDayPlanAPI } from '../api/DayPlanAPI';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import Chip from '@material-ui/core/Chip';
 
 import FoodDiaryTable from './FoodDiaryTable';
 import SearchModal from './SearchModal';
-import {useAppContext} from './context/AppContext'
-
+import { useAppContext } from './context/AppContext'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,14 +35,17 @@ const useStyles = makeStyles((theme) => ({
         '& > *': {
             margin: theme.spacing(1),
         },
+    chip: {
+        margin: 'auto'
+    }
     },
 }));
 
 
 const FoodDiary = (props) => {
-    
+
     const appContext = useAppContext();
-    const{date, setDate, addMealSearchModal, setAddMealSearchModal, reloadSameDateDayPlan} = appContext
+    const { date, setDate, addMealSearchModal, setAddMealSearchModal, reloadSameDateDayPlan } = appContext
 
     const history = useHistory();
     // console.log('history', history);
@@ -80,7 +89,7 @@ const FoodDiary = (props) => {
         }
     }, [date, reloadSameDateDayPlan])
 
-    const handleAddClick = () =>{
+    const handleAddClick = () => {
         setAddMealSearchModal(true);
 
     }
@@ -89,11 +98,11 @@ const FoodDiary = (props) => {
 
         return (
             <>
-            <SearchModal  showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date}/>
-            <Alert severity="error">There is no Food Diary for the chosen date, please choose another date</Alert>
-            <div className={classes.root}>
-                <Button variant="contained" color="primary" onClick={handleAddClick}>Add Meal</Button>
-            </div>
+                <SearchModal showModal={addMealSearchModal} hideModal={setAddMealSearchModal} date={date} />
+                <Alert severity="error">There is no Food Diary for the chosen date, please choose another date</Alert>
+                <div className={classes.root}>
+                    <Button variant="contained" color="primary" onClick={handleAddClick}>Add Meal</Button>
+                </div>
             </>
         )
     }
@@ -102,19 +111,30 @@ const FoodDiary = (props) => {
         <>
             <h2>My Food Diary</h2>
             <div className={classes.container}>
-                <TextField
-                    id="date"
-                    label="Choose Date"
-                    type="date"
-                    value={date}
-                    onChange={handleDate}
-                    className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            id="date"
+                            label="Choose Date"
+                            type="date"
+                            value={date}
+                            onChange={handleDate}
+                            className={classes.textField}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </Grid>
+                {/* </Grid > */}
+                {/* <Grid container spacing={2}> */}
+                    <Grid item xs={12} sm={6}>
+                        <div className={classes.chip}> 
+                            <Chip  label="Total calories: " />
+                        </div>
+                    </Grid>
+                </Grid >
             </div>
-            {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} getDayPlanAPI={getDayPlanAPI}/>}
+                {error ? renderError() : <FoodDiaryTable dayPlanResult={dayPlanResult} getDayPlanAPI={getDayPlanAPI} renderError={renderError} setDayPlanResult={setDayPlanResult} />}
         </>
     )
 }
