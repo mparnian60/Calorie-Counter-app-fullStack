@@ -29,7 +29,7 @@ const privateKey = '7f58842e-546e-41ec-86cc-98688aff65e5';
 router.use((req, res, next) => {
   const token = req.get('token');
 
-  console.log("token", token);
+  // console.log("token", token);
 
   jwt.verify(token, privateKey, { algorithms: ["HS256"] }, (err, decoded) => {
     if (!err) {
@@ -246,9 +246,10 @@ router.delete('/deleteFood', async (req, res) => {
     // default:
     //   console.log('meal type not found');
   }
+  console.log('delete meal', dayPlan.meal)
   //check if a valid meal was selected
   if(meal) {
-    console.log('meal', meal)
+    // console.log('meal', meal)
     //update the meal properties from the query
     meal.foodId = req.body.meal.foodId;
     meal.servingSize = req.body.meal.servingSize;
@@ -256,6 +257,16 @@ router.delete('/deleteFood', async (req, res) => {
     await meal.remove();
     await dayPlan.save();
   }
+
+  //delete the whole plan if all meals are empty
+  if(dayPlan.meal.breakfast.length < 1 
+    && dayPlan.meal.lunch.length < 1 
+    && dayPlan.meal.dinner.length < 1
+    && dayPlan.meal.snack.length < 1 ){
+      // console.log('no meal exist in dayplan')
+      await DayPlan.findOneAndDelete({ userId: req.user.id, _id: req.body.planId });
+      console.log('entire food deleted')
+    }
   res.json(dayPlan);
 });
 
