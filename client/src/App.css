@@ -46,3 +46,11 @@ body{
   background-position: center center;
   background-attachment: fixed;
 }
+
+.MuiIconButton-root:hover {
+  outline-color: white;
+}
+
+.MuiIconButton-root:focus {
+  outline-color: white;
+}

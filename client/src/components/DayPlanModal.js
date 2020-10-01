@@ -93,6 +93,9 @@ const DayPlanModal = ({ foodDetails, showModal, setShowModal, getDayPlanAPI, set
                 }
                 setDate(dayPlanFormValue.date);
 
+                //redirect to food diary after creating the new foodDiary from Home page
+                history.push('/foodDiary');
+
             }).catch(e => {
                 console.log("dayplan modal error", e);
             });

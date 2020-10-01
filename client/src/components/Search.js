@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import searchAPI from '../api/searchAPI';
 import SearchResult from './SearchResult';
@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import picture1 from './images/picture1.jpg';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         width: '80%',
-        margin:'40px auto',
+        margin: '40px auto',
+        // '& > * + *': {
+        //     marginLeft: theme.spacing(2),
+        //   }
         // marginTop: 50,
     },
     input: {
@@ -28,11 +32,18 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButton: {
         padding: 10,
+        outlineColor: 'white',
     },
     divider: {
         height: 28,
         margin: 4,
     },
+    circularProgress: {
+        display: 'flex',
+        '& > * + *': {
+            marginLeft: theme.spacing(2),
+        },
+    }
     // outerDiv:{
     //     backgroundSize:'cover',
     //     width:'100%',
@@ -40,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
     // }
 }));
 
-const Search = ({date, getDayPlanAPI, setOpen}) => {
+const Search = ({ date, getDayPlanAPI, setOpen }) => {
     const classes = useStyles();
 
     const [searchItem, setSearchItem] = useState("");
     const [searchResult, setSearchResults] = useState([]);
-
+    const [circleProgress, setCircleProgress] = useState(false);
 
 
     const handleSearchEntry = (e) => {
@@ -55,8 +66,10 @@ const Search = ({date, getDayPlanAPI, setOpen}) => {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchItem) {
+            setCircleProgress(true);
             searchAPI(searchItem)
                 .then((result) => {
+                    setCircleProgress(false);
                     // console.log('result',result);
                     setSearchResults(result);
                 });
@@ -68,24 +81,24 @@ const Search = ({date, getDayPlanAPI, setOpen}) => {
     return (
         <React.Fragment >
             <div className={classes.outerDiv}>
-            {/* <div className={classes.outerDiv} style ={ { backgroundImage: "url("+backgroundImg+")" } }> */}
+                {/* <div className={classes.outerDiv} style ={ { backgroundImage: "url("+backgroundImg+")" } }> */}
                 {/* <img src={require('./images/picture1.jpg')} ></img> */}
-            <Form onSubmit={handleSearchSubmit}>
-                <Paper component="form" className={classes.root}>
-                    <InputBase
-                        className={classes.input}
-                        placeholder="Search Food"
-                        onChange={handleSearchEntry}
-                        value={searchItem}
-                    // inputProps={{ 'aria-label': 'search google maps' }}
-                    />
-                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                        <SearchIcon />
-                    </IconButton>
-                </Paper>
-                <SearchResult foodResult={searchResult} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen}/>
-            </Form>
-            {/* </div> */}
+                <Form onSubmit={handleSearchSubmit}>
+                    <Paper component="form" className={classes.root}>
+                        <InputBase
+                            className={classes.input}
+                            placeholder="Search Food"
+                            onChange={handleSearchEntry}
+                            value={searchItem}
+                        // inputProps={{ 'aria-label': 'search google maps' }}
+                        />
+                        <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                            {circleProgress ? <div className={classes.circularProgress}><CircularProgress size={20} /></div> : <SearchIcon />}
+                        </IconButton>
+                    </Paper>
+                    <SearchResult foodResult={searchResult} date={date} getDayPlanAPI={getDayPlanAPI} setOpen={setOpen} />
+                </Form>
+                {/* </div> */}
             </div>
         </React.Fragment>
 
